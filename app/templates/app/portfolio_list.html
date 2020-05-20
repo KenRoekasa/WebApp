@@ -1,18 +1,15 @@
 {% extends 'app/portfolio.html' %}
 {% block content %}
 {% for project in projects %}
-<div class="project">
-    <a href="">
-    <div class="title_wrapper">
-            <div class="title_item"><img class="project_img" src="/app{{ project.image.url }}" alt={{ project.title }}>
-            </div>
-            <div class="title_item"><h2>{{ project.title }}</h2></div>
-    </div>
-    <div class="date">
-        <p>published: {{ project.published_date }}</p>
-    </div>
+
+<a href="{% url 'portfolio_detail' pk=project.pk %}" class="project col border rounded-sm">
+    <img class="project_img img-thumbnail" src="/app{{ project.image.url }}" alt={{ project.title }}>
+    <h2>{{ project.title }}</h2>
     <p>{{ project.description|linebreaksbr }}</p>
-    </a>
-</div>
+    <div class="date">
+        <p>{{ project.published_date }}</p>
+    </div>
+</a>
+
 {% endfor %}
 {% endblock %}
