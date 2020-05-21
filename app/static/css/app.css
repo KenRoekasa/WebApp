@@ -11,9 +11,7 @@
 }
 
 .content {
-    margin-left: 10px;
-    padding: 0px;
-
+    text-align: center;
 }
 
 h1, h2, h3, h4 {
@@ -58,22 +56,20 @@ h1, h2, h3, h4 {
    color:black;
    text-transform: uppercase;
    font-weight: bold;
-   font-size: 50p
+   font-size: 50px;
 
 }
 
-img_div{
-  background-color: red;
-  width: 100%;
-  padding-top: 100%; /* 1:1 Aspect Ratio */
-  position: relative; /* If you want text inside of it */
+.project_img {
+    display: inline-block;
+    
 }
 
 .project p{
     color:black;
 
 }
-.project_img{
+.project_thumb{
      width: auto;
      height: 50%;
     padding: 5px;
