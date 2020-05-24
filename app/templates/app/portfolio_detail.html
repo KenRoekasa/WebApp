@@ -1,13 +1,17 @@
 {% extends 'app/portfolio.html' %}
 {% block content %}
-<div class = "content container">
-    <img class="project_img" src="/app{{ project.image.url }}" alt={{ project.title }}>
-    <h2>{{ project.title }}</h2>
-    <p>{{ project.description|linebreaksbr }}</p>
+<div class="parallax" style="background-image: url('{{ project.image.url }}');"></div>
+<div class="content container">
+    <div>
+        <h2>{{ project.title }}</h2>
+    </div>
+    <!--    Screen shot div-->
+    <div></div>
+    <div><p>{{ project.description|linebreaksbr }}</p></div>
+    <!--    link-->
+    <div><a href="https://{{ project.link }}">GITHUB</a></div>
     <div class="date">
         <p>{{ project.published_date }}</p>
     </div>
 </div>
-
-
 {% endblock %}

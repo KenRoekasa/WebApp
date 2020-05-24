@@ -42,6 +42,7 @@ h1, h2, h3, h4 {
     padding: 10px;
     text_decoration: none;
     text-align: center;
+    height: 350px;
 
 }
 .project:link {
@@ -62,7 +63,10 @@ h1, h2, h3, h4 {
 
 .project_img {
     display: inline-block;
-    
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+
 }
 
 .project p{
@@ -80,7 +84,18 @@ h1, h2, h3, h4 {
 .title_item{
     display: inline-block;
     vertical-align: middle;
-     padding: 5px;
+    padding: 5px;
+
 }
 
+.parallax {
+  /* Set a specific height */
+  height: 500px;
+
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: top;
+  background-repeat: no-repeat;
+   background-size: contain;
+}
 
