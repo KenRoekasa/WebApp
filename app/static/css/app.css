@@ -11,7 +11,12 @@
 }
 
 .content {
-    text-align: center;
+    text-align: left;
+    background-color: white;
+}
+
+body {
+    background-color: grey;
 }
 
 h1, h2, h3, h4 {
@@ -45,19 +50,20 @@ h1, h2, h3, h4 {
     height: 350px;
 
 }
+
 .project:link {
-  text-decoration: none;
+    text-decoration: none;
 }
 
 .project:hover {
-  background-color: #989898;
+    background-color: #989898;
 }
 
-.project h2{
-   color:black;
-   text-transform: uppercase;
-   font-weight: bold;
-   font-size: 50px;
+.project h2 {
+    color: black;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 50px;
 
 }
 
@@ -69,19 +75,20 @@ h1, h2, h3, h4 {
 
 }
 
-.project p{
-    color:black;
+.project p {
+    color: black;
 
 }
-.project_thumb{
-     width: auto;
-     height: 50%;
+
+.project_thumb {
+    width: auto;
+    height: 50%;
     padding: 5px;
 
 }
 
 
-.title_item{
+.title_item {
     display: inline-block;
     vertical-align: middle;
     padding: 5px;
@@ -89,13 +96,119 @@ h1, h2, h3, h4 {
 }
 
 .parallax {
-  /* Set a specific height */
-  height: 500px;
+    /* Set a specific height */
+    height: 500px;
 
-  /* Create the parallax scrolling effect */
-  background-attachment: fixed;
-  background-position: top;
-  background-repeat: no-repeat;
-   background-size: contain;
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: contain;
 }
+
+.read_more {
+    float: right;
+}
+
+.inline div {
+    display: inline-block;
+}
+
+.post {
+    padding: 10px;
+}
+
+.intro-text {
+    margin: 0;
+    position: absolute;
+    top: 25%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    text-align: center;
+    right: 50%;
+    -ms-transform: translateX(50%);
+    transform: translateX(50%);
+}
+
+.intro-text h1 {
+    font-size: 150px;
+    letter-spacing: 1px;
+    font-weight: 100;
+    margin: 0;
+}
+
+.intro-text h5 {
+    font-size: 40px;
+    letter-spacing: 1px;
+    font-weight: 100;
+    margin: 15px;
+}
+
+.intro-text p {
+    text-align: justify;
+    text-align: center;
+    font-size: 20px;
+    margin: 12px;
+
+}
+
+.box {
+    background: url("/static/images/keyboard_background.jpg") no-repeat center center fixed;
+    background-size: cover;
+    height: 100vh;
+    color: white;
+    align-self: center;
+
+}
+
+.myButton {
+    background-color: transparent;
+    border: 2px solid #ab1919;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: Arial;
+    font-size: 21px;
+    padding: 14px 19px;
+    text-decoration: none;
+}
+
+.myButton:hover {
+    background-color: #3e3e3e;
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.myButton:active {
+    position: relative;
+    top: 1px;
+    text-decoration: none;
+}
+
+.box li {
+    display: inline-block;
+    margin: 6px;
+    list-style: none;
+
+}
+
+.box li a {
+    color: white;
+    text-decoration: none;
+    font-size: 60px;
+    transition: all ease-in-out 250ms;
+}
+
+.box li a:hover {
+    color: #b9b9b9;
+}
+.box ul {
+    margin: 0;
+    padding: 0;
+}
+.top_image{
+    text-align: center;
+}
+
+
 

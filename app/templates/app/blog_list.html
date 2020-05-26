@@ -1,0 +1,19 @@
+{% extends 'app/index.html' %}
+{% block content %}
+<div class="content container">
+    {% for blog in blogs %}
+    <div class="post">
+        <h2>{{ blog.title }}</h2>
+        <p>{{ blog.text|truncatechars:255 }}</p>
+        <div class="inline">
+            <div class="date">{{ blog.published_date}}</div>
+            <div class="read_more"><a href="#">read more</a></div>
+            <hr class="solid">
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+{% endblock %}
+
+{% block activeblog %} active {% endblock %}

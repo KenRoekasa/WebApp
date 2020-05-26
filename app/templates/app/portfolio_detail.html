@@ -1,7 +1,7 @@
-{% extends 'app/portfolio.html' %}
+{% extends 'app/index.html' %}
 {% block content %}
-<div class="parallax" style="background-image: url('{{ project.image.url }}');"></div>
 <div class="content container">
+    <div class="top_image"><img  src="{{ project.image.url }}"></div>
     <div>
         <h2>{{ project.title }}</h2>
     </div>
@@ -14,4 +14,8 @@
         <p>{{ project.published_date }}</p>
     </div>
 </div>
+{% endblock %}
+
+{% block activeport %}
+active
 {% endblock %}
