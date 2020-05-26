@@ -207,14 +207,16 @@ h1, h2, h3, h4 {
     padding: 0;
 }
 .top_image{
-    text-align: center;
-
+  text-align: center;
+  width: 100%;
 }
+
 .top_image img{
-    height: 50%;
-    width: auto;
-
+    object-fit: contain;
+    max-width: 100%;
+    height: 40vh;
 }
+
 
 
 
