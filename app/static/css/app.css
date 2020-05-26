@@ -208,6 +208,12 @@ h1, h2, h3, h4 {
 }
 .top_image{
     text-align: center;
+
+}
+.top_image img{
+    height: 50%;
+    width: auto;
+
 }
 
 
