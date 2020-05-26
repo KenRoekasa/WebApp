@@ -1,0 +1,18 @@
+{% extends 'app/index.html' %}
+{% block content %}
+<div class="content container">
+    <div>
+        <h2>{{ blog.title }}</h2>
+    </div>
+    <!--    Screen shot div-->
+    <div></div>
+    <div><p>{{ blog.text|linebreaksbr }}</p></div>
+    <div class="date">
+        <p>{{ blog.published_date }}</p>
+    </div>
+</div>
+{% endblock %}
+
+{% block activeblog %}
+active
+{% endblock %}

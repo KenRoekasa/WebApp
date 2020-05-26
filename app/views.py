@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+
 from .models import Project, Blog
 
 
@@ -20,3 +21,12 @@ def project_detail(request, pk):
 def blog_list(request):
     blogs = Blog.objects.all()
     return render(request, 'app/blog_list.html', {'blogs': blogs})
+
+
+def cv(request):
+    return render(request, 'app/cv.html', {})
+
+
+def blog_detail(request, pk):
+    blog = get_object_or_404(Blog, pk=pk)
+    return render(request, 'app/blog_detail.html', {'blog': blog})

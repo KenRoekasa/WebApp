@@ -7,12 +7,11 @@
         <p>{{ blog.text|truncatechars:255 }}</p>
         <div class="inline">
             <div class="date">{{ blog.published_date}}</div>
-            <div class="read_more"><a href="#">read more</a></div>
+            <div class="read_more"><a href="{% url 'blog_detail' pk=blog.pk %}">read more</a></div>
             <hr class="solid">
         </div>
     </div>
     {% endfor %}
-
 </div>
 {% endblock %}
 
