@@ -11,6 +11,7 @@ urlpatterns = [
     path('portfolio/', views.project_list, name='portfolio_list'),
     path('portfolio/<int:pk>', views.project_detail, name='portfolio_detail'),
     path('cv/', views.cv, name='cv'),
+    path('blog/new/', views.blog_new, name='blog_new'),
 
 ]
 

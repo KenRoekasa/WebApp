@@ -28,7 +28,11 @@ h1, h2, h3, h4 {
 }
 
 .save {
-    float: right;
+   text-align: right;
+}
+
+.save button{
+    width: 10%
 }
 
 .project-form textarea, .project-form input {
@@ -202,21 +206,36 @@ h1, h2, h3, h4 {
 .box li a:hover {
     color: #b9b9b9;
 }
+
 .box ul {
     margin: 0;
     padding: 0;
 }
-.top_image{
-  text-align: center;
-  width: 100%;
+
+.top_image {
+    text-align: center;
+    width: 100%;
 }
 
-.top_image img{
+.top_image img {
     object-fit: contain;
     max-width: 100%;
     height: 40vh;
 }
 
+.add_overlay {
+    position: fixed;
+    bottom: 2.5%;
+    right: 1%;
+    font-size: 75px;
+    color: #c5c5c6;
+}
 
+.post-form textarea, .post-form input {
+    width: 100%;
+}
 
+.blog_new{
+    padding: 10px;
+}
 
