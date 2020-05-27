@@ -1,8 +1,86 @@
 {% extends 'app/index.html' %}
 {% block content %}
 <div class="content container">
-   CV
+    <div class="cv_section">
+        <h2>Education</h2>
+        <div class="school_wrapper">
+            <div class="place_location">
+                <h5>University of Birmingham</h5>
+                <h5 id="location">Edgbaston, Birmingham</h5>
+            </div>
+            <h6>MSci Computer Science</h6>
+            <h6>2017-2021</h6>
+        </div>
+        <div class="school_wrapper">
+            <div class="place_location">
+                <h5>Claremont High School</h5>
+                <h5 id="location">Kenton, London</h5>
+            </div>
+            <h6>MSci Computer Science</h6>
+            <h6>2010-2017</h6>
+            <p>A-levels: Mathematics Further Mathematics, Physics (A*AA)</p>
+            <p>GCSE: 11 GCSE A*-C including Maths, Further Maths, English, and Sciences</p>
+        </div>
+        <hr class="solid">
+    </div>
+    <div class="cv_section">
+        <h2>Tech Skills</h2>
+        <ul class  = "tech_skills_list">
+            <li>Java (Fluent)</li>
+            <li> C# (Working Knowledge)</li>
+            <li> C/C++ (Working Knowledge)</li>
+            <li>Mips (Working Knowledge)</li>
+            <li>Python (Familiar)</li>
+            <li>SQL (Working Knowledge)</li>
+            <li> Git</li>
+            <li> IntelliJ IDEA</li>
+            <li>Android Studio</li>
+            <li>Eclipse</li>
+            <li> Visual Studios (Familiar)</li>
+            <li> Virtual Box</li>
+            <li>Unity</li>
+            <li> Blender</li>
+        </ul>
+        <hr class="solid">
+    </div>
+    <div class="cv_section">
+        <h2>Work Experience</h2>
+        <div class="place_location">
+            <h5>Suda Thai Cafe & Restaurant</h5>
+            <h5 id="location">Fitzrovia, London</h5>
+        </div>
+        <h6>Waiter</h6>
+        <h6>July 2018 - September 2018</h6>
+        <hr class="solid">
+    </div>
+    <div class="cv_section">
+        <h2>Academic Projects</h2>
+        <div class="cv_project_wrapper">
+            <div class="place_location">
+                <h5>IoT Tracking/Mapping System Project</h5>
+                <h5 id="location">Feb 2020 - Present</h5>
+            </div>
+            <ul>
+                <li> For my ’Software Design Study’ module in my third year.</li>
+                <li>A group project to design and create a prototype of an ’Internet of Things’ system.</li>
+                <li>We decided to go for a tracking/mapping system for combat simulations.</li>
+                <li>Using Arduino/Raspberry Pi for the prototype.</li>
+                <li>Designing the system through proper design processes and using knowledge of HCI.</li>
+            </ul>
+        </div>
+        <hr class="solid">
+    </div>
+    <div class="cv_section">
+        <h2>Awards and Achievements</h2>
+        <ul>
+            <li> 3 Bronze medal for archery in B.U.T.T.S competitions as a novice</li>
+            <li> Fluent in Thai</li>
+        </ul>
+        <hr class="solid">
+    </div>
+    <a href="https://drive.google.com/file/d/13pV6-1Tyd05-expns8AwaE7obMzrHKlK/view?usp=sharing">DOWNLOAD</a>
 </div>
+
 {% endblock %}
 
 {% block activeport %}
