@@ -13,9 +13,11 @@
     </div>
     {% endfor %}
 </div>
+{% if user.is_authenticated %}
 <div>
     <a href="{% url 'blog_new' %}" class="add_overlay"><i class="fas fa-plus-circle"></i></a>
 </div>
+{% endif %}
 {% endblock %}
 
 {% block activeblog %} active {% endblock %}
