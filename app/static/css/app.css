@@ -230,6 +230,10 @@ h1, h2, h3, h4 {
     font-size: 75px;
     color: #c5c5c6;
 }
+.add_overlay:hover {
+    text-decoration: none;
+    color: #383838;
+}
 
 .post-form textarea, .post-form input {
     width: 100%;
@@ -248,7 +252,7 @@ h1, h2, h3, h4 {
     display: inline-block;
 }
 
-.left_right #left{
+.left_right #left {
     float: left;
 }
 
@@ -260,12 +264,16 @@ h1, h2, h3, h4 {
     columns: 2;
 }
 
-.bold{
+.bold {
     font-weight: bold;
 }
 
-.cv_subheader{
+.cv_subheader {
     font-style: italic;
     font-weight: lighter;
 }
 
+.download_pdf {
+    border: 15px outset #3d3d3d;
+    border-radius: 30px;
+}
