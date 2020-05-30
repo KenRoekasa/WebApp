@@ -28,10 +28,10 @@ h1, h2, h3, h4 {
 }
 
 .save {
-   text-align: right;
+    text-align: right;
 }
 
-.save button{
+.save button {
     width: 10%
 }
 
@@ -235,23 +235,37 @@ h1, h2, h3, h4 {
     width: 100%;
 }
 
-.blog_new{
+.blog_new {
     padding: 10px;
 }
 
-.school_wrapper{
+.school_wrapper {
 
 }
 
-.place_location h5{
+.left_right {
+    width: 100%;
     display: inline-block;
 }
 
-.place_location #location{
+.left_right #left{
+    float: left;
+}
+
+.left_right #right {
     float: right;
 }
 
-.tech_skills_list{
-     columns: 2;
+.two_column_list {
+    columns: 2;
+}
+
+.bold{
+    font-weight: bold;
+}
+
+.cv_subheader{
+    font-style: italic;
+    font-weight: lighter;
 }
 

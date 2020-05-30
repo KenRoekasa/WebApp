@@ -2,30 +2,72 @@
 {% block content %}
 <div class="content container">
     <div class="cv_section">
-        <h2>Education</h2>
+        <h1>Education</h1>
         <div class="school_wrapper">
-            <div class="place_location">
-                <h5>University of Birmingham</h5>
-                <h5 id="location">Edgbaston, Birmingham</h5>
+            <div class="left_right">
+                <h3 id="left">University of Birmingham</h3>
+                <h3 id="right">Edgbaston, Birmingham</h3>
             </div>
-            <h6>MSci Computer Science</h6>
-            <h6>2017-2021</h6>
+            <div class="left_right">
+                <h4 class="cv_subheader" id="left">MSci Computer Science</h4>
+                <h4 class="cv_subheader" id="right">2017-2021</h4>
+            </div>
+            <div>
+                <ul>
+                    <li>1st Year (73% - First Class):</li>
+                    <ul class="two_column_list">
+                        <li>Introduction to Software Engineering (71%)</li>
+                        <li> Language and Logic (69%)</li>
+                        <li>Robot Programming (80%)</li>
+                        <li>Introduction to AI (56%)</li>
+                        <li>Software Workshop (90%)</li>
+                        <li> Elements of Functional Computing (66%)</li>
+                        <li> Data Structures and Algorithms (59%)</li>
+                    </ul>
+                    <li>2nd Year (70% - First Class):</li>
+                    <ul class="two_column_list">
+                        <li>Software Engineering 1 (69%)</li>
+                        <li> Software Engineering 2 (75%)</li>
+                        <li> Computer systems and Architecture (87%)</li>
+                        <li> Introduction to Computer Security (61%)</li>
+                        <li> Graphics (64%)</li>
+                        <li> Introductory Databases (64%)</li>
+                        <li> C/C++ (73%)</li>
+                        <li> Models of Computation (59%)</li>
+                        <li> Team Project (86%)</li>
+                    </ul>
+                    <li>3rd Year (Current Year):</li>
+                    <ul class="two_column_list">
+                        <li>Human Computer Interaction</li>
+                        <li> Intelligent Data Analysis</li>
+                        <li> Distributed and Parallel Computing</li>
+                        <li> Machine Learning</li>
+                        <li> Mobile & Ubiquitous Computing</li>
+                        <li> Operating Systems</li>
+                        <li> Software Design Study</li>
+                    </ul>
+                </ul>
+
+            </div>
         </div>
         <div class="school_wrapper">
-            <div class="place_location">
-                <h5>Claremont High School</h5>
-                <h5 id="location">Kenton, London</h5>
+            <div class="left_right">
+                <h3 class=cv_subheader" id="left">Claremont High School</h3>
+                <h3 class=cv_subheader" id="right">Kenton, London</h3>
             </div>
-            <h6>MSci Computer Science</h6>
-            <h6>2010-2017</h6>
-            <p>A-levels: Mathematics Further Mathematics, Physics (A*AA)</p>
-            <p>GCSE: 11 GCSE A*-C including Maths, Further Maths, English, and Sciences</p>
+            <div class="left_right">
+                <div id="left">
+                    <p>A-levels: Mathematics Further Mathematics, Physics (A*AA)</p>
+                    <p>GCSE: 11 GCSE A*-C including Maths, Further Maths, English, and Sciences</p>
+                </div>
+                <h4 class="cv_subheader" id="right">2010-2017</h4>
+            </div>
         </div>
         <hr class="solid">
     </div>
     <div class="cv_section">
-        <h2>Tech Skills</h2>
-        <ul class  = "tech_skills_list">
+        <h1>Tech Skills</h1>
+        <ul class="two_column_list">
             <li>Java (Fluent)</li>
             <li> C# (Working Knowledge)</li>
             <li> C/C++ (Working Knowledge)</li>
@@ -43,22 +85,43 @@
         </ul>
         <hr class="solid">
     </div>
-    <div class="cv_section">
-        <h2>Work Experience</h2>
-        <div class="place_location">
-            <h5>Suda Thai Cafe & Restaurant</h5>
-            <h5 id="location">Fitzrovia, London</h5>
+    <div sec class="cv_section">
+        <h1>Work Experience</h1>
+        <div class="left_right">
+            <h3 id="left">Suda Thai Cafe & Restaurant</h3>
+            <h3 id="right">Fitzrovia, London</h3>
         </div>
-        <h6>Waiter</h6>
-        <h6>July 2018 - September 2018</h6>
+        <div class="left_right">
+            <h4 class="cv_subheader" id="left">Waiter</h4>
+            <h4 class="cv_subheader" id="right">July 2018 - September 2018</h4>
+        </div>
+        <ul>
+            <li><span class="bold">Customer Service</span> - Listened to customers needs and complaints and ensured the
+                customers
+                needs are met
+                or their complaints are heard and fixed.
+            </li>
+            <li><span class="bold">Directing of orders and food</span> - To know what dishes go to what table and
+                ensured that the
+                order is
+                correct
+                and is up to standard.
+            </li>
+            <li><span class="bold"> Pantry work</span> - Managed orders, serving food. and drinks I had the essential
+                items to
+                organise in my
+                station,
+                to distribute in a quick and efficient manner.
+            </li>
+        </ul>
         <hr class="solid">
-    </div>
+    </div sec>
     <div class="cv_section">
         <h2>Academic Projects</h2>
         <div class="cv_project_wrapper">
-            <div class="place_location">
-                <h5>IoT Tracking/Mapping System Project</h5>
-                <h5 id="location">Feb 2020 - Present</h5>
+            <div class="left_right">
+                <h3 id="left">IoT Tracking/Mapping System Project</h3>
+                <h3 id="right">Feb 2020 - Present</h3>
             </div>
             <ul>
                 <li> For my ’Software Design Study’ module in my third year.</li>
@@ -68,18 +131,84 @@
                 <li>Designing the system through proper design processes and using knowledge of HCI.</li>
             </ul>
         </div>
+        <div class="cv_project_wrapper">
+            <div class="left_right">
+                <h3 id="left">BAE Capture The Flag</h3>
+                <h3 id="right">Jan 2020</h3>
+            </div>
+            <ul>
+                <li> A capture the flag event hosted by BAE Systems.</li>
+                <li> Various categories: Binary exploits, Crypto, Forensics, Packets, Problem solving, Reverse
+                    Engineering, Trivia, Web.
+                </li>
+                <li> My team of 3 placed 9th out of approximately 34 teams.</li>
+                <li> Focused on reverse engineering programs and web such as SQL injection.</li>
+            </ul>
+        </div>
+        <div class="cv_project_wrapper">
+            <div class="left_right">
+                <h3 id="left">Neon Element</h3>
+                <h3 id="right">Feb 2019 – Mar 2019}</h3>
+            </div>
+            <ul>
+                <li> Neon Element is an isometric free-for-all arena brawler game supporting up to 4 players. Each
+                    player can switch to 4 elemental states Earth, Fire, Air and Water during a match.
+                </li>
+                <li> A large programming project using Java, with particular emphasis on team work.</li>
+                <li>Worked in team of 6.</li>
+                <li> Created the game engine from scratch this includes the physics engine.</li>
+                <li>Programmed all of the mechanics in the game; includes game modes, entities.</li>
+                <li> Largely used interfaces, in the implementation.</li>
+                <li> Assisted in networking by fixing bugs.</li>
+                <li> Junit testing was used extensively.</li>
+                <li>Used a variation of Agile development.</li>
+            </ul>
+        </div>
+        <div class="cv_project_wrapper">
+            <div class="left_right">
+                <h3 id="left">Forest Footprint</h3>
+                <h3 id="right">Feb 2019 – Mar 2019</h3>
+            </div>
+            <ul>
+                <li> A software engineering project, where its all about the process of designing the application to
+                    help the environment, no implementation involved.
+                </li>
+                <li> Drew UML Diagrams such as class diagrams, state diagrams etc...</li>
+                <li> Wrote down requirements(functional and non-functional) and specification.</li>
+                <li> Create a document of the design of the application.</li>
+                <li> Performed Architecture tradeoff analysis method.</li>
+            </ul>
+        </div>
+        <div class="cv_project_wrapper">
+            <div class="left_right">
+                <h3 id="left">Autonomous Warehouse Robot Programming</h3>
+                <h3 id="right">Feb 2018 – Mar 2018</h3>
+            </div>
+            <ul>
+                <li>Program using Java on NXT robots.</li>
+                <li> Worked in teams of 10.</li>
+                <li> The robots would have a virtual warehouse, where it can path find by having line tracking, to pick
+                    up points while avoiding each other and return back to the drop off point.
+                </li>
+                <li> Focused on communication between robots and to a main hub such as a PC using Bluetooth..</li>
+            </ul>
+        </div>
+        
+
         <hr class="solid">
     </div>
     <div class="cv_section">
-        <h2>Awards and Achievements</h2>
+        <h1>Awards and Achievements</h1>
         <ul>
-            <li> 3 Bronze medal for archery in B.U.T.T.S competitions as a novice</li>
-            <li> Fluent in Thai</li>
+            <li> 3 Bronze medal for archery in B.U.T.T.S competitions as a novice.</li>
+            <li> Fluent in Thai.</li>
         </ul>
         <hr class="solid">
     </div>
-    <a href="https://drive.google.com/file/d/13pV6-1Tyd05-expns8AwaE7obMzrHKlK/view?usp=sharing">DOWNLOAD</a>
+    <a class="add_overlay" href="https://drive.google.com/file/d/13pV6-1Tyd05-expns8AwaE7obMzrHKlK/view?usp=sharing"><i
+            class="far fa-file-pdf"></i></a>
 </div>
+
 
 {% endblock %}
 
