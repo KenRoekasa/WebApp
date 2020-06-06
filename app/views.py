@@ -9,7 +9,6 @@ from .forms import BlogForm
 from django.shortcuts import redirect
 
 
-# Create your views here.
 def project_list(request):
     projects = Project.objects.order_by('-published_date')
     return render(request, 'app/portfolio_list.html', {'projects': projects})
