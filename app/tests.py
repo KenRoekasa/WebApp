@@ -4,7 +4,7 @@ from django.test import TestCase, Client
 from django.urls import resolve
 
 from .views import home, cv, project_list, blog_list
-from .models import Blog, Project, CV
+from .models import Blog, Project, Education
 
 
 class CSRFTest(TestCase):
@@ -108,183 +108,194 @@ class CVPageTest(TestCase):
         response = self.client.get('/cv/edit/')
         self.assertTemplateUsed(response, 'app/cv_edit.html')
 
-    def test_cv_edit_education_save_POST_request(self):
-        response = self.client.post('/blog/new/',
-                                    data={'title': 'Testing', 'text': 'This is testing if the post is working'})
-        # self.assertIn('Testing', response.content.decode())
-        # self.assertIn('This is testing if the post is working', response.content.decode())
-        # Get last post
-        latest_item = Blog.objects.order_by('id')[0]
-        self.assertEqual(latest_item.title, "Testing")
-        self.assertEqual(latest_item.text, "This is testing if the post is working")
+    def test_cv_page_has_education_section(self):
+        response = self.client.get('/cv/')
+        html = response.content.decode('utf8')
+        self.assertIn('<h1>Education</h1>', html)
 
-    def test_cv_edit_tech_skills_save_POST_request(self):
-        response = self.client.post('/blog/new/',
-                                    data={'title': 'Testing', 'text': 'This is testing if the post is working'})
-        # self.assertIn('Testing', response.content.decode())
-        # self.assertIn('This is testing if the post is working', response.content.decode())
-        # Get last post
-        latest_item = Blog.objects.order_by('id')[0]
-        self.assertEqual(latest_item.title, "Testing")
-        self.assertEqual(latest_item.text, "This is testing if the post is working")
+    def test_cv_page_has_no_new_button_click_when_logged_out(self):
+        response = self.client.get('/cv/')
+        html = response.content.decode('utf8')
+        self.assertNotIn('id = education_add_button', html)
 
-    def test_cv_edit_academic_projects_save_POST_request(self):
-        response = self.client.post('/blog/new/',
-                                    data={'title': 'Testing', 'text': 'This is testing if the post is working'})
-        # self.assertIn('Testing', response.content.decode())
-        # self.assertIn('This is testing if the post is working', response.content.decode())
-        # Get last post
-        latest_item = Blog.objects.order_by('id')[0]
-        self.assertEqual(latest_item.title, "Testing")
-        self.assertEqual(latest_item.text, "This is testing if the post is working")
+    def test_cv_page_has_new_button_click_when_logged_in(self):
+        c = Client()
+        c.login(username='kenny', password='adminadmin123')
+        response = self.client.get('/cv/')
+        html = response.content.decode('utf8')
+        self.assertIn('id = education_add_button', html)
 
-    def test_cv_edit_work_experience_save_POST_request(self):
-        response = self.client.post('/blog/new/',
-                                    data={'title': 'Testing', 'text': 'This is testing if the post is working'})
-        # self.assertIn('Testing', response.content.decode())
-        # self.assertIn('This is testing if the post is working', response.content.decode())
-        # Get last post
-        latest_item = Blog.objects.order_by('id')[0]
-        self.assertEqual(latest_item.title, "Testing")
-        self.assertEqual(latest_item.text, "This is testing if the post is working")
+    # def test_cv_edit_education_save_POST_request(self):
+    #     response = self.client.post('/blog/new/',
+    #                                 data={'title': 'Testing', 'text': 'This is testing if the post is working'})
+    #     # self.assertIn('Testing', response.content.decode())
+    #     # self.assertIn('This is testing if the post is working', response.content.decode())
+    #     # Get last post
+    #     latest_item = Blog.objects.order_by('id')[0]
+    #     self.assertEqual(latest_item.title, "Testing")
+    #     self.assertEqual(latest_item.text, "This is testing if the post is working")
 
-    def test_cv_edit_awards_save_POST_request(self):
-        response = self.client.post('/blog/new/',
-                                    data={'title': 'Testing', 'text': 'This is testing if the post is working'})
-        # self.assertIn('Testing', response.content.decode())
-        # self.assertIn('This is testing if the post is working', response.content.decode())
-        # Get last post
-        latest_item = Blog.objects.order_by('id')[0]
-        self.assertEqual(latest_item.title, "Testing")
-        self.assertEqual(latest_item.text, "This is testing if the post is working")
+    # def test_cv_edit_tech_skills_save_POST_request(self):
+    #     response = self.client.post('/blog/new/',
+    #                                 data={'title': 'Testing', 'text': 'This is testing if the post is working'})
+    #     # self.assertIn('Testing', response.content.decode())
+    #     # self.assertIn('This is testing if the post is working', response.content.decode())
+    #     # Get last post
+    #     latest_item = Blog.objects.order_by('id')[0]
+    #     self.assertEqual(latest_item.title, "Testing")
+    #     self.assertEqual(latest_item.text, "This is testing if the post is working")
+    #
+    # def test_cv_edit_academic_projects_save_POST_request(self):
+    #     response = self.client.post('/blog/new/',
+    #                                 data={'title': 'Testing', 'text': 'This is testing if the post is working'})
+    #     # self.assertIn('Testing', response.content.decode())
+    #     # self.assertIn('This is testing if the post is working', response.content.decode())
+    #     # Get last post
+    #     latest_item = Blog.objects.order_by('id')[0]
+    #     self.assertEqual(latest_item.title, "Testing")
+    #     self.assertEqual(latest_item.text, "This is testing if the post is working")
+    #
+    # def test_cv_edit_work_experience_save_POST_request(self):
+    #     response = self.client.post('/blog/new/',
+    #                                 data={'title': 'Testing', 'text': 'This is testing if the post is working'})
+    #     # self.assertIn('Testing', response.content.decode())
+    #     # self.assertIn('This is testing if the post is working', response.content.decode())
+    #     # Get last post
+    #     latest_item = Blog.objects.order_by('id')[0]
+    #     self.assertEqual(latest_item.title, "Testing")
+    #     self.assertEqual(latest_item.text, "This is testing if the post is working")
+    #
+    # def test_cv_edit_awards_save_POST_request(self):
+    #     response = self.client.post('/blog/new/',
+    #                                 data={'title': 'Testing', 'text': 'This is testing if the post is working'})
+    #     # self.assertIn('Testing', response.content.decode())
+    #     # self.assertIn('This is testing if the post is working', response.content.decode())
+    #     # Get last post
+    #     latest_item = Blog.objects.order_by('id')[0]
+    #     self.assertEqual(latest_item.title, "Testing")
+    #     self.assertEqual(latest_item.text, "This is testing if the post is working")
+    #
+    # def test_redirects_after_POST(self):
+    #     response = self.client.post('/blog/new/',
+    #                                 data={'title': 'Testing', 'text': 'This is testing if the post is working'})
+    #     self.assertEqual(response.status_code, 302)
+    #     self.assertEqual(response['location'], 'post_detail')
+    #
+    # def test_displays_changes_cv(self):
+    #     CV.objects.create(title='hello test', text='this is the text')
+    #     Blog.objects.create(title='Testing the goat', text='Oh blah blah blah testing')
+    #
+    #     response = self.client.get('/blog/')
+    #
+    #     self.assertIn('hello test', response.content.decode())
+    #     self.assertIn('Testing the goat', response.content.decode())
+    #     self.assertIn('this is the text', response.content.decode())
+    #     self.assertIn('Oh blah blah blah testing', response.content.decode())
+    #
+    # def test_saving_and_retrieving_education(self):
+    #     first_blog = Blog()
+    #     first_blog.title = 'Blog post test 1'
+    #     first_blog.text = 'Hello this is a blog post'
+    #     first_blog.save()
+    #
+    #     second_blog = Blog()
+    #     second_blog.title = 'Blog post test 2'
+    #     second_blog.text = 'Hello this is also blog post even longer'
+    #     second_blog.save()
+    #
+    #     saved_blogs = Blog.objects.all()
+    #     self.assertEqual(saved_blogs.count(), 2)
+    #
+    #     first_saved_blog = saved_blogs[0]
+    #     second_save_blog = saved_blogs[1]
+    #     self.assertEqual(first_saved_blog.Title, 'Blog post test 1')
+    #     self.assertEqual(second_save_blog.Title, 'Blog post test 2')
+    #     self.assertEqual(first_saved_blog.text, 'Hello this is a blog post')
+    #     self.assertEqual(second_save_blog.text, 'Hello this is also blog post even longer')
 
-    def test_redirects_after_POST(self):
-        response = self.client.post('/blog/new/',
-                                    data={'title': 'Testing', 'text': 'This is testing if the post is working'})
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['location'], 'post_detail')
+    # def test_saving_and_retrieving_tech_skills(self):
+    #     first_blog = Blog()
+    #     first_blog.title = 'Blog post test 1'
+    #     first_blog.text = 'Hello this is a blog post'
+    #     first_blog.save()
+    #
+    #     second_blog = Blog()
+    #     second_blog.title = 'Blog post test 2'
+    #     second_blog.text = 'Hello this is also blog post even longer'
+    #     second_blog.save()
+    #
+    #     saved_blogs = Blog.objects.all()
+    #     self.assertEqual(saved_blogs.count(), 2)
+    #
+    #     first_saved_blog = saved_blogs[0]
+    #     second_save_blog = saved_blogs[1]
+    #     self.assertEqual(first_saved_blog.Title, 'Blog post test 1')
+    #     self.assertEqual(second_save_blog.Title, 'Blog post test 2')
+    #     self.assertEqual(first_saved_blog.text, 'Hello this is a blog post')
+    #     self.assertEqual(second_save_blog.text, 'Hello this is also blog post even longer')
 
-    def test_displays_changes_cv(self):
-        CV.objects.create(title='hello test', text='this is the text')
-        Blog.objects.create(title='Testing the goat', text='Oh blah blah blah testing')
-
-        response = self.client.get('/blog/')
-
-        self.assertIn('hello test', response.content.decode())
-        self.assertIn('Testing the goat', response.content.decode())
-        self.assertIn('this is the text', response.content.decode())
-        self.assertIn('Oh blah blah blah testing', response.content.decode())
-
-    def test_saving_and_retrieving_education(self):
-        first_blog = Blog()
-        first_blog.title = 'Blog post test 1'
-        first_blog.text = 'Hello this is a blog post'
-        first_blog.save()
-
-        second_blog = Blog()
-        second_blog.title = 'Blog post test 2'
-        second_blog.text = 'Hello this is also blog post even longer'
-        second_blog.save()
-
-        saved_blogs = Blog.objects.all()
-        self.assertEqual(saved_blogs.count(), 2)
-
-        first_saved_blog = saved_blogs[0]
-        second_save_blog = saved_blogs[1]
-        self.assertEqual(first_saved_blog.Title, 'Blog post test 1')
-        self.assertEqual(second_save_blog.Title, 'Blog post test 2')
-        self.assertEqual(first_saved_blog.text, 'Hello this is a blog post')
-        self.assertEqual(second_save_blog.text, 'Hello this is also blog post even longer')
-
-    def test_saving_and_retrieving_tech_skills(self):
-        first_blog = Blog()
-        first_blog.title = 'Blog post test 1'
-        first_blog.text = 'Hello this is a blog post'
-        first_blog.save()
-
-        second_blog = Blog()
-        second_blog.title = 'Blog post test 2'
-        second_blog.text = 'Hello this is also blog post even longer'
-        second_blog.save()
-
-        saved_blogs = Blog.objects.all()
-        self.assertEqual(saved_blogs.count(), 2)
-
-        first_saved_blog = saved_blogs[0]
-        second_save_blog = saved_blogs[1]
-        self.assertEqual(first_saved_blog.Title, 'Blog post test 1')
-        self.assertEqual(second_save_blog.Title, 'Blog post test 2')
-        self.assertEqual(first_saved_blog.text, 'Hello this is a blog post')
-        self.assertEqual(second_save_blog.text, 'Hello this is also blog post even longer')
-
-        def test_education_section_exist(self):
-            request = HttpRequest()
-            response = cv(request)
-            html = response.content.decode('utf8')
-            self.assertIn('<h1>Educations</h1>', html)
-
-            # def test_saving_and_retrieving_academic_projects(self):
-        #     first_blog = Blog()
-        #     first_blog.title = 'Blog post test 1'
-        #     first_blog.text = 'Hello this is a blog post'
-        #     first_blog.save()
-        #
-        #     second_blog = Blog()
-        #     second_blog.title = 'Blog post test 2'
-        #     second_blog.text = 'Hello this is also blog post even longer'
-        #     second_blog.save()
-        #
-        #     saved_blogs = Blog.objects.all()
-        #     self.assertEqual(saved_blogs.count(), 2)
-        #
-        #     first_saved_blog = saved_blogs[0]
-        #     second_save_blog = saved_blogs[1]
-        #     self.assertEqual(first_saved_blog.Title, 'Blog post test 1')
-        #     self.assertEqual(second_save_blog.Title, 'Blog post test 2')
-        #     self.assertEqual(first_saved_blog.text, 'Hello this is a blog post')
-        #     self.assertEqual(second_save_blog.text, 'Hello this is also blog post even longer')
-        #
-        # def test_saving_and_retrieving_awards(self):
-        #     first_blog = Blog()
-        #     first_blog.title = 'Blog post test 1'
-        #     first_blog.text = 'Hello this is a blog post'
-        #     first_blog.save()
-        #
-        #     second_blog = Blog()
-        #     second_blog.title = 'Blog post test 2'
-        #     second_blog.text = 'Hello this is also blog post even longer'
-        #     second_blog.save()
-        #
-        #     saved_blogs = Blog.objects.all()
-        #     self.assertEqual(saved_blogs.count(), 2)
-        #
-        #     first_saved_blog = saved_blogs[0]
-        #     second_save_blog = saved_blogs[1]
-        #     self.assertEqual(first_saved_blog.Title, 'Blog post test 1')
-        #     self.assertEqual(second_save_blog.Title, 'Blog post test 2')
-        #     self.assertEqual(first_saved_blog.text, 'Hello this is a blog post')
-        #     self.assertEqual(second_save_blog.text, 'Hello this is also blog post even longer')
-        #
-        # def test_saving_and_retrieving_education(self):
-        #     first_blog = Blog()
-        #     first_blog.title = 'Blog post test 1'
-        #     first_blog.text = 'Hello this is a blog post'
-        #     first_blog.save()
-        #
-        #     second_blog = Blog()
-        #     second_blog.title = 'Blog post test 2'
-        #     second_blog.text = 'Hello this is also blog post even longer'
-        #     second_blog.save()
-        #
-        #     saved_blogs = Blog.objects.all()
-        #     self.assertEqual(saved_blogs.count(), 2)
-        #
-        #     first_saved_blog = saved_blogs[0]
-        #     second_save_blog = saved_blogs[1]
-        #     self.assertEqual(first_saved_blog.Title, 'Blog post test 1')
-        #     self.assertEqual(second_save_blog.Title, 'Blog post test 2')
-        #     self.assertEqual(first_saved_blog.text, 'Hello this is a blog post')
-        #     self.assertEqual(second_save_blog.text, 'Hello this is also blog post even longer')
+    # def test_saving_and_retrieving_academic_projects(self):
+    #     first_blog = Blog()
+    #     first_blog.title = 'Blog post test 1'
+    #     first_blog.text = 'Hello this is a blog post'
+    #     first_blog.save()
+    #
+    #     second_blog = Blog()
+    #     second_blog.title = 'Blog post test 2'
+    #     second_blog.text = 'Hello this is also blog post even longer'
+    #     second_blog.save()
+    #
+    #     saved_blogs = Blog.objects.all()
+    #     self.assertEqual(saved_blogs.count(), 2)
+    #
+    #     first_saved_blog = saved_blogs[0]
+    #     second_save_blog = saved_blogs[1]
+    #     self.assertEqual(first_saved_blog.Title, 'Blog post test 1')
+    #     self.assertEqual(second_save_blog.Title, 'Blog post test 2')
+    #     self.assertEqual(first_saved_blog.text, 'Hello this is a blog post')
+    #     self.assertEqual(second_save_blog.text, 'Hello this is also blog post even longer')
+    #
+    # def test_saving_and_retrieving_awards(self):
+    #     first_blog = Blog()
+    #     first_blog.title = 'Blog post test 1'
+    #     first_blog.text = 'Hello this is a blog post'
+    #     first_blog.save()
+    #
+    #     second_blog = Blog()
+    #     second_blog.title = 'Blog post test 2'
+    #     second_blog.text = 'Hello this is also blog post even longer'
+    #     second_blog.save()
+    #
+    #     saved_blogs = Blog.objects.all()
+    #     self.assertEqual(saved_blogs.count(), 2)
+    #
+    #     first_saved_blog = saved_blogs[0]
+    #     second_save_blog = saved_blogs[1]
+    #     self.assertEqual(first_saved_blog.Title, 'Blog post test 1')
+    #     self.assertEqual(second_save_blog.Title, 'Blog post test 2')
+    #     self.assertEqual(first_saved_blog.text, 'Hello this is a blog post')
+    #     self.assertEqual(second_save_blog.text, 'Hello this is also blog post even longer')
+    #
+    # def test_saving_and_retrieving_education(self):
+    #     first_blog = Blog()
+    #     first_blog.title = 'Blog post test 1'
+    #     first_blog.text = 'Hello this is a blog post'
+    #     first_blog.save()
+    #
+    #     second_blog = Blog()
+    #     second_blog.title = 'Blog post test 2'
+    #     second_blog.text = 'Hello this is also blog post even longer'
+    #     second_blog.save()
+    #
+    #     saved_blogs = Blog.objects.all()
+    #     self.assertEqual(saved_blogs.count(), 2)
+    #
+    #     first_saved_blog = saved_blogs[0]
+    #     second_save_blog = saved_blogs[1]
+    #     self.assertEqual(first_saved_blog.Title, 'Blog post test 1')
+    #     self.assertEqual(second_save_blog.Title, 'Blog post test 2')
+    #     self.assertEqual(first_saved_blog.text, 'Hello this is a blog post')
+    #     self.assertEqual(second_save_blog.text, 'Hello this is also blog post even longer')
 
 
 class PortfolioPageTest(TestCase):
