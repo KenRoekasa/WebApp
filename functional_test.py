@@ -89,7 +89,8 @@ class CVEditTest(unittest.TestCase):
 
         # Enter Field of study
         field_of_study = self.browser.find_element_by_id('id_field_of_study')
-
+        input_description_box.send_keys('Computer Science')
+        
         # Enters Description
         input_description_box = self.browser.find_element_by_id('id_description')
         input_description_box.send_keys(
