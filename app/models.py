@@ -1,6 +1,13 @@
+import datetime
+
 from django.conf import settings
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.utils import timezone
+
+
+def year_choices():
+    return [(r, r) for r in range(1984, datetime.date.today().year + 5)]
 
 
 class Project(models.Model):
@@ -37,6 +44,8 @@ class Education(models.Model):
     school = models.CharField(max_length=255)
     location = models.CharField(max_length=64)
     description = models.TextField()
-    start_year = models.IntegerField()
-    end_year = models.IntegerField()
+    start_year = models.PositiveIntegerField(default=timezone.now().year,
+                                             validators=[MinValueValidator(1984), MaxValueValidator(3000)])
+    end_year = models.PositiveIntegerField(default=timezone.now().year,
+                                           validators=[MinValueValidator(1984), MaxValueValidator(3000)])
     field_of_study = models.CharField(max_length=255)
