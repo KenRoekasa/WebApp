@@ -3,6 +3,7 @@ import time
 from selenium import webdriver
 import unittest
 
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 
@@ -15,14 +16,14 @@ class CVEditTest(unittest.TestCase):
     def tearDown(self):
         self.browser.quit()
 
-    def test_user_admin_login(self):
-        self.browser.get('http://127.0.0.1:8000/admin')
-        username_box = self.browser.find_element_by_id('id_username')
-        password_box = self.browser.find_element_by_id('id_password')
-        username_box.send_keys('kenny')
-        password_box.send_keys('adminadmin123')
-        password_box.send_keys(Keys.ENTER)
-        time.sleep(1)
+    # def test_user_admin_login(self):
+    #     self.browser.get('http://127.0.0.1:8000/admin')
+    #     username_box = self.browser.find_element_by_id('id_username')
+    #     password_box = self.browser.find_element_by_id('id_password')
+    #     username_box.send_keys('kenny')
+    #     password_box.send_keys('adminadmin123')
+    #     password_box.send_keys(Keys.ENTER)
+    #     time.sleep(1)
 
     def test_add_new_cv_education(self):
         # User opens site add a new to their education
@@ -40,20 +41,27 @@ class CVEditTest(unittest.TestCase):
 
         # Locates the Education section
         headers = self.browser.find_elements_by_tag_name('h1')
-        self.assertIn('Education', headers)
+        self.assertTrue(any('Education' in h.text for h in headers))
 
         # Notices there's no add button
-        add_button = self.browser.find_element_by_id('education_add_button')
-        self.assertIsNone(add_button)
+
+        try:
+            self.assertIsNone(self.browser.find_element_by_id('education_add_button'))
+        except NoSuchElementException:
+            pass
 
         # They login
-        self.test_user_admin_login()
+        self.browser.get('http://127.0.0.1:8000/admin')
+        username_box = self.browser.find_element_by_id('id_username')
+        password_box = self.browser.find_element_by_id('id_password')
+        username_box.send_keys('kenny')
+        password_box.send_keys('adminadmin123')
+        password_box.send_keys(Keys.ENTER)
+        time.sleep(1)
 
         time.sleep(1)
         # Goes back to cv page
         self.browser.get('http://127.0.0.1:8000/cv/')
-
-
 
         # Notices an add button
         add_button = self.browser.find_element_by_id('education_add_button')
@@ -104,25 +112,27 @@ class CVEditTest(unittest.TestCase):
         field_of_study_text = self.browser.find_elements_by_class_name('field_of_study')
 
         self.assertTrue(
-            any(school_texts == 'University of Birmingham' for text in school_texts)
+            any(text == 'University of Birmingham' for text in school_texts)
+
         )
 
         self.assertTrue(
-            any(field_of_study_text == 'University of Birmingham' for text in field_of_study_text)
+            any(text == 'University of Birmingham' for text in field_of_study_text)
+
         )
 
         self.assertTrue(
-            any(year_text == '2017-2021' for year in year_text)
+            any(year == '2017-2021' for year in year_text)
         )
 
         self.assertTrue(
             any(
-                description_text == 'First Year Software Workshop - 90% Robot Programming - 80% Introduction to Software Engineering - 71% First Year - Year Average 73%'
-                for year in school_texts)
+                text == 'First Year Software Workshop - 90% Robot Programming - 80% Introduction to Software Engineering - 71% First Year - Year Average 73%'
+                for text in school_texts)
         )
 
         self.assertTrue(
-            any(location_text == 'Edgbaston, Birmingham' for text in location_text)
+            any(text == 'Edgbaston, Birmingham' for text in location_text)
         )
 
 
