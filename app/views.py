@@ -4,7 +4,7 @@ from django.utils import timezone
 
 from .models import Project, Blog
 
-from .forms import BlogForm
+from .forms import BlogForm, EducationForm
 
 from django.shortcuts import redirect
 
@@ -49,3 +49,8 @@ def blog_new(request):
     else:
         form = BlogForm()
     return render(request, 'app/blog_new.html', {'form': form})
+
+
+def cv_education_new(request):
+    form = EducationForm()
+    return render(request, 'app/cv_education_edit.html', {'form': form})
