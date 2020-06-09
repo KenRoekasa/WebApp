@@ -5,15 +5,15 @@
         <h1>Education</h1>
         {% if user.is_authenticated %}
         <div>
-            <a href="{% url 'cv_new' %}" id='education_add_button'><i class="fas fa-plus-circle"></i></a>
+            <a href="{% url 'cv_education_new' %}" id='education_add_button'><i class="fas fa-plus-circle"></i></a>
         </div>
         {% endif %}
 
         {% for education in educations %}
         <div class="school_wrapper">
             <div class="left_right">
-                <h3 class ="school" id="left">{{ education.school }}</h3>
-                <h3 class ="location" id="right">{{ education.location }}</h3>
+                <h3 class="school" id="left">{{ education.school }}</h3>
+                <h3 class="location" id="right">{{ education.location }}</h3>
             </div>
             <div class="left_right">
                 <h4 class="cv_subheader field_of_study" id="left">{{ education.field_of_study }}</h4>
@@ -21,9 +21,11 @@
             </div>
             <div>
                 <p>
-                {{ education.description }}
+                    {{ education.description }}
                 </p>
             </div>
+            <div><a href="{% url 'cv_education_edit' pk=education.pk %}" id='edit_education_btn'><i
+                    class="fas fa-edit"></i></a></div>
         </div>
         {% endfor %}
         <hr class="solid">

@@ -143,7 +143,7 @@ class CVEditTest(unittest.TestCase):
 
         # Notices Edit button next to University of Birmingham
 
-        edit_button = self.browser.find_elements_by_class('edit_education_btn')[0]
+        edit_button = self.browser.find_elements_by_id('edit_education_btn')[0]
 
         # Clicks edit button
         edit_button.click()
