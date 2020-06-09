@@ -154,8 +154,8 @@ class CVPageTest(TestCase):
         latest_item = Education.objects.all()[0]
         self.assertEqual(latest_item.school, "The school of education")
         self.assertEqual(latest_item.description, "1st class degree")
-        self.assertEqual(latest_item.start_year, "2017")
-        self.assertEqual(latest_item.end_year, "2021")
+        self.assertEqual(latest_item.start_year, 2017)
+        self.assertEqual(latest_item.end_year, 2021)
         self.assertEqual(latest_item.field_of_study, "Comp Sci")
 
     def test_displays_all_cv_education_items(self):
