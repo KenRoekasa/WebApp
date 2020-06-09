@@ -1,7 +1,7 @@
 {% extends 'app/index.html' %}
 {% block content %}
 <div class="content container blog_new">
-    <h2>New post</h2>
+    <h2>New Blog Post</h2>
     <form method="POST" class="post-form">{% csrf_token %}
         {{ form.as_p }}
         <div class = "save">
