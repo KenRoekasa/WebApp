@@ -52,5 +52,12 @@ def blog_new(request):
 
 
 def cv_education_new(request):
-    form = EducationForm()
+    if request.method == "POST":
+        form = EducationForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.save()
+            return redirect('cv')
+    else:
+        form = EducationForm()
     return render(request, 'app/cv_education_edit.html', {'form': form})
