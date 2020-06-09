@@ -17,7 +17,6 @@ class BlogForm(forms.ModelForm):
 class EducationForm(forms.ModelForm):
     start_year = forms.TypedChoiceField(coerce=int, choices=year_choices, initial=datetime.date.today().year)
     end_year = forms.TypedChoiceField(coerce=int, choices=year_choices, initial=datetime.date.today().year)
-
     class Meta:
         model = Education
         fields = ('school', 'location', 'field_of_study', 'description',)
