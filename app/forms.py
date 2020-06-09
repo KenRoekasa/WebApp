@@ -1,11 +1,11 @@
 import datetime
 
 from django import forms
+from django.forms import TypedChoiceField, Select
+
 from .models import Blog, Education
 
-
-def year_choices():
-    return [(r, r) for r in range(1984, datetime.date.today().year + 1000)]
+year_choices = [(r, r) for r in range(1984, datetime.date.today().year + 1000)]
 
 
 class BlogForm(forms.ModelForm):
@@ -15,8 +15,11 @@ class BlogForm(forms.ModelForm):
 
 
 class EducationForm(forms.ModelForm):
-    start_year = forms.TypedChoiceField(coerce=int, choices=year_choices, initial=datetime.date.today().year)
-    end_year = forms.TypedChoiceField(coerce=int, choices=year_choices, initial=datetime.date.today().year)
     class Meta:
         model = Education
-        fields = ('school', 'location', 'field_of_study', 'description',)
+        fields = ('school', 'location', 'start_year', 'end_year', 'field_of_study', 'description',)
+        widgets = {
+            'start_year': Select(choices=year_choices),
+            'end_year': Select(choices=year_choices),
+        }
+
