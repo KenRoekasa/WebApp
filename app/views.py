@@ -72,7 +72,6 @@ def cv_education_edit(request, pk):
     educations = Education.objects.order_by('-end_year')
     if request.method == "POST":
         form = EducationForm(request.POST, instance=post)
-
         if form.is_valid():
             post = form.save(commit=False)
             post.start_year = request.POST.get("start_year")
@@ -80,5 +79,5 @@ def cv_education_edit(request, pk):
             post.save()
             return redirect('cv')
     else:
-        form = EducationForm()
+        form = EducationForm(instance=post)
     return render(request, 'app/cv_education_edit.html', {'form': form, 'educations': educations})
