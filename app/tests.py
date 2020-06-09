@@ -1,16 +1,13 @@
+from django.contrib.auth.models import User
+from django.db.models.functions import datetime
 from django.http import HttpRequest
 from django.template.loader import render_to_string
 from django.test import TestCase, Client
 from django.urls import resolve
+from django.utils import timezone
 
-from .views import home, cv, project_list, blog_list
+from .views import home, cv, project_list, blog_list, cv_education_new
 from .models import Blog, Project, Education
-
-
-class CSRFTest(TestCase):
-    def test_CSRF(self):
-        csrf_client = self.client(enforce_csrf_checks=True);
-        self.assertTrue(self, csrf_client)
 
 
 class HomePageTest(TestCase):
@@ -32,13 +29,20 @@ class BlogPageTest(TestCase):
 
     def test_blog_page_returns_correct_html(self):
         response = self.client.get('/blog/')
-        self.assertTemplateUsed(response, 'app/blog.html')
+        self.assertTemplateUsed(response, 'app/blog_list.html')
 
     def test_blog_edit_page_returns_correct_html(self):
         response = self.client.get('/blog/new/')
         self.assertTemplateUsed(response, 'app/blog_new.html')
 
     def test_blog_edit_page_save_POST_request(self):
+        password = 'mypassword'
+
+        my_admin = User.objects.create_superuser('myuser', 'myemail@test.com', password)
+
+        # You'll need to log him in before you can send requests through the client
+        self.client.login(username=my_admin.username, password=password)
+
         response = self.client.post('/blog/new/',
                                     data={'title': 'Testing', 'text': 'This is testing if the post is working'})
         # self.assertIn('Testing', response.content.decode())
@@ -49,14 +53,26 @@ class BlogPageTest(TestCase):
         self.assertEqual(latest_item.text, "This is testing if the post is working")
 
     def test_redirects_after_POST(self):
+        password = 'mypassword'
+
+        my_admin = User.objects.create_superuser('myuser', 'myemail@test.com', password)
+
+        # You'll need to log him in before you can send requests through the client
+        self.client.login(username=my_admin.username, password=password)
+
         response = self.client.post('/blog/new/',
                                     data={'title': 'Testing', 'text': 'This is testing if the post is working'})
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['location'], 'post_detail')
+        self.assertEqual(response['location'], '/blog/1')
 
     def test_displays_all_blogs_ordered(self):
-        Blog.objects.create(title='hello test', text='this is the text')
-        Blog.objects.create(title='Testing the goat', text='Oh blah blah blah testing')
+        password = 'mypassword'
+
+        my_admin = User.objects.create_superuser('myuser', 'myemail@test.com', password)
+
+        Blog.objects.create(title='hello test', text='this is the text', author_id=1, created_date=timezone.now())
+        Blog.objects.create(title='Testing the goat', text='Oh blah blah blah testing', author_id=1,
+                            created_date=timezone.now())
 
         response = self.client.get('/blog/')
 
@@ -66,14 +82,22 @@ class BlogPageTest(TestCase):
         self.assertIn('Oh blah blah blah testing', response.content.decode())
 
     def test_saving_and_retrieving_blog(self):
+        password = 'mypassword'
+
+        my_admin = User.objects.create_superuser('myuser', 'myemail@test.com', password)
+
         first_blog = Blog()
         first_blog.title = 'Blog post test 1'
         first_blog.text = 'Hello this is a blog post'
+        first_blog.author_id = 1;
+        first_blog.created_date = timezone.now()
         first_blog.save()
 
         second_blog = Blog()
         second_blog.title = 'Blog post test 2'
         second_blog.text = 'Hello this is also blog post even longer'
+        second_blog.author_id = 1;
+        second_blog.created_date = timezone.now()
         second_blog.save()
 
         saved_blogs = Blog.objects.all()
@@ -81,8 +105,8 @@ class BlogPageTest(TestCase):
 
         first_saved_blog = saved_blogs[0]
         second_save_blog = saved_blogs[1]
-        self.assertEqual(first_saved_blog.Title, 'Blog post test 1')
-        self.assertEqual(second_save_blog.Title, 'Blog post test 2')
+        self.assertEqual(first_saved_blog.title, 'Blog post test 1')
+        self.assertEqual(second_save_blog.title, 'Blog post test 2')
         self.assertEqual(first_saved_blog.text, 'Hello this is a blog post')
         self.assertEqual(second_save_blog.text, 'Hello this is also blog post even longer')
 
@@ -97,16 +121,12 @@ class CVPageTest(TestCase):
         self.assertTemplateUsed(response, 'app/cv.html')
 
     def test_education_new_url_resolves_to_cv_new_view(self):
-        found = resolve('/cv/edit/education/new')
-        self.assertEqual(found.func, cv_education_edit)
+        found = resolve('/cv/edit/education/new/')
+        self.assertEqual(found.func, cv_education_new)
 
     def test_cv_education_new_edit_page_returns_correct_html(self):
-        response = self.client.get('/cv/edit/education/new')
-        self.assertTemplateUsed(response, 'app/cv_edit.html')
-
-    def test_cv_edit_page_returns_correct_html(self):
-        response = self.client.get('/cv/edit/')
-        self.assertTemplateUsed(response, 'app/cv_edit.html')
+        response = self.client.get('/cv/edit/education/new/')
+        self.assertTemplateUsed(response, 'app/cv_education_edit.html')
 
     def test_cv_page_has_education_section(self):
         response = self.client.get('/cv/')
