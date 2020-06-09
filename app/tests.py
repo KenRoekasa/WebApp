@@ -327,4 +327,4 @@ class PortfolioPageTest(TestCase):
 
     def test_cv_page_returns_correct_html(self):
         response = self.client.get('/portfolio/')
-        self.assertTemplateUsed(response, 'app/portfolio.html')
+        self.assertTemplateUsed(response, 'app/portfolio_list.html')
