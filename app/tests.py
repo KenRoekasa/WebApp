@@ -6,7 +6,7 @@ from django.test import TestCase, Client
 from django.urls import resolve
 from django.utils import timezone
 
-from .views import home, cv, project_list, blog_list, cv_education_new
+from .views import home, cv, project_list, blog_list, cv_education_new,cv_education_edit
 from .models import Blog, Project, Education
 
 
@@ -63,7 +63,7 @@ class BlogPageTest(TestCase):
         response = self.client.post('/blog/new/',
                                     data={'title': 'Testing', 'text': 'This is testing if the post is working'})
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['location'], '/blog/1')
+        self.assertEqual(response['location'], '/blog/1/')
 
     def test_displays_all_blogs_ordered(self):
         password = 'mypassword'
@@ -185,7 +185,8 @@ class CVPageTest(TestCase):
                                  description='1st class degree',
                                  start_year
                                  =2017, end_year=2021, field_of_study='Comp Sci', id=1)
-        found = resolve('/cv/edit/education/1/')
+        found = resolve('/cv/edit/education/0/')
+        print(found.func)
         self.assertEqual(found.func, cv_education_edit)
 
     def test_cv_education_new_edit_page_returns_correct_html(self):
@@ -198,11 +199,11 @@ class CVPageTest(TestCase):
     def test_cv_education_edit_save_POST(self):
         Education.objects.create(school='The school of education', location='London', description='1st class degree',
                                  start_year
-                                 =2017, end_year=2021, field_of_study='Maths', id=1)
+                                 =2017, end_year=2021, field_of_study='Comp Sci', id=1)
         response = self.client.post('/cv/edit/education/1/',
                                     data={'school': 'The school of education', 'location': 'London',
                                           'description': '1st class degree',
-                                          'field_of_study': 'Comp Sci', 'start_year': "2017", 'end_year': "2021"})
+                                          'field_of_study': 'Maths', 'start_year': "2017", 'end_year': "2021"})
 
         latest_item = Education.objects.all()[0]
 
