@@ -3,6 +3,11 @@
 <div class="content container">
     <div class="cv_section">
         <h1>Education</h1>
+        {% if user.is_authenticated %}
+        <div>
+            <a href="{% url 'cv_new' %}" id = 'education_add_button'><i class="fas fa-plus-circle"></i></a>
+        </div>
+        {% endif %}
         <div class="school_wrapper">
             <div class="left_right">
                 <h3 id="left">University of Birmingham</h3>
@@ -205,12 +210,16 @@
         </ul>
         <hr class="solid">
     </div>
-    <a class="add_overlay download_pdf" href="https://drive.google.com/file/d/13pV6-1Tyd05-expns8AwaE7obMzrHKlK/view?usp=sharing"><i
+    <a class="add_overlay download_pdf"
+       href="https://drive.google.com/file/d/13pV6-1Tyd05-expns8AwaE7obMzrHKlK/view?usp=sharing"><i
             class="far fa-file-pdf"></i></a>
 </div>
 
+{% block overlay %}
+{% endblock %}
 
 {% endblock %}
+
 
 {% block activecv %}
 active
