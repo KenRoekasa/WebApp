@@ -31,3 +31,11 @@ class Blog(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Education(models.Model):
+    school = models.CharField(max_length=255)
+    description = models.TextField()
+    start_year = models.IntegerField()
+    end_year = models.IntegerField()
+    field_of_study = models.CharField(max_length=255)
