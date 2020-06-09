@@ -177,6 +177,14 @@ class CVPageTest(TestCase):
         Education.objects.create(school='The school of education', location='London', description='1st class degree',
                                  start_year
                                  =2017, end_year=2021, field_of_study='Comp Sci', id=1)
+        found = resolve('/cv/edit/education/new/')
+        self.assertEqual(found.func, cv_education_new)
+
+    def test_education_edit_url_resolves_to_cv_edit_view(self):
+        Education.objects.create(school='The school of education', location='London',
+                                 description='1st class degree',
+                                 start_year
+                                 =2017, end_year=2021, field_of_study='Comp Sci', id=1)
         found = resolve('/cv/edit/education/1/')
         self.assertEqual(found.func, cv_education_edit)
 
