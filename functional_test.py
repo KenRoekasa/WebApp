@@ -82,7 +82,7 @@ class CVEditTest(unittest.TestCase):
 
         # User enters the Start and End Year
         input_start_year = Select(self.browser.find_element_by_id('id_start_year'))
-        input_end_year = self.browser.find_element_by_id('id_end_year')
+        input_end_year = Select(self.browser.find_element_by_id('id_end_year'))
 
         input_start_year.select_by_visible_text("2017")
         input_end_year.select_by_visible_text("2021")
