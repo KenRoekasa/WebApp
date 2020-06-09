@@ -5,69 +5,25 @@
         <h1>Education</h1>
         {% if user.is_authenticated %}
         <div>
-            <a href="{% url 'cv_new' %}" id = 'education_add_button'><i class="fas fa-plus-circle"></i></a>
+            <a href="{% url 'cv_new' %}" id='education_add_button'><i class="fas fa-plus-circle"></i></a>
         </div>
         {% endif %}
+
+        {% for education in educations %}
         <div class="school_wrapper">
             <div class="left_right">
-                <h3 id="left">University of Birmingham</h3>
-                <h3 id="right">Edgbaston, Birmingham</h3>
+                <h3 id="left">{{ education.school }}</h3>
+                <h3 id="right">{{ education.location }}</h3>
             </div>
             <div class="left_right">
-                <h4 class="cv_subheader" id="left">MSci Computer Science</h4>
-                <h4 class="cv_subheader" id="right">2017-2021</h4>
+                <h4 class="cv_subheader" id="left">{{ education.field_of_study }}</h4>
+                <h4 class="cv_subheader" id="right">{{education.start_year}}-{{education.end_year}}</h4>
             </div>
             <div>
-                <ul>
-                    <li>1st Year (73% - First Class):</li>
-                    <ul class="two_column_list">
-                        <li>Introduction to Software Engineering (71%)</li>
-                        <li> Language and Logic (69%)</li>
-                        <li>Robot Programming (80%)</li>
-                        <li>Introduction to AI (56%)</li>
-                        <li>Software Workshop (90%)</li>
-                        <li> Elements of Functional Computing (66%)</li>
-                        <li> Data Structures and Algorithms (59%)</li>
-                    </ul>
-                    <li>2nd Year (70% - First Class):</li>
-                    <ul class="two_column_list">
-                        <li>Software Engineering 1 (69%)</li>
-                        <li> Software Engineering 2 (75%)</li>
-                        <li> Computer systems and Architecture (87%)</li>
-                        <li> Introduction to Computer Security (61%)</li>
-                        <li> Graphics (64%)</li>
-                        <li> Introductory Databases (64%)</li>
-                        <li> C/C++ (73%)</li>
-                        <li> Models of Computation (59%)</li>
-                        <li> Team Project (86%)</li>
-                    </ul>
-                    <li>3rd Year (Current Year):</li>
-                    <ul class="two_column_list">
-                        <li>Human Computer Interaction</li>
-                        <li> Intelligent Data Analysis</li>
-                        <li> Distributed and Parallel Computing</li>
-                        <li> Machine Learning</li>
-                        <li> Mobile & Ubiquitous Computing</li>
-                        <li> Operating Systems</li>
-                        <li> Software Design Study</li>
-                    </ul>
-                </ul>
-
+                {{ education.description }}
             </div>
         </div>
-        <div class="school_wrapper">
-            <div class="left_right">
-                <h3 class=cv_subheader" id="left">Claremont High School</h3>
-                <h3 class=cv_subheader" id="right">Kenton, London</h3>
-            </div>
-            <div class="left_right">
-                <div id="left">
-                    <p>A-levels: Mathematics Further Mathematics, Physics (A*AA)</p>
-                    <p>GCSE: 11 GCSE A*-C including Maths, Further Maths, English, and Sciences</p>
-                </div>
-                <h4 class="cv_subheader" id="right">2010-2017</h4>
-            </div>
-        </div>
+        {% endfor %}
         <hr class="solid">
     </div>
     <div class="cv_section">

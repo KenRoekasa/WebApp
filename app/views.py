@@ -2,7 +2,7 @@ from django.db.models.functions import Coalesce
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 
-from .models import Project, Blog
+from .models import Project, Blog, Education
 
 from .forms import BlogForm, EducationForm
 
@@ -29,7 +29,8 @@ def blog_list(request):
 
 
 def cv(request):
-    return render(request, 'app/cv.html', {})
+    educations = Education.objects.all()
+    return render(request, 'app/cv.html', {'educations': educations})
 
 
 def blog_detail(request, pk):

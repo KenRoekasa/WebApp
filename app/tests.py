@@ -160,9 +160,10 @@ class CVPageTest(TestCase):
         self.assertEqual(latest_item.field_of_study, "Comp Sci")
 
     def test_displays_all_cv_education_items(self):
-        response = self.client.get('/cv/')
+
         Education.objects.create(school='The school of education', location='London', description='1st class degree', start_year
         =2017, end_year=2021, field_of_study='Comp Sci')
+        response = self.client.get('/cv/')
         self.assertIn('The school of education', response.content.decode())
         self.assertIn('London', response.content.decode())
         self.assertIn('1st class degree', response.content.decode())
