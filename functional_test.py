@@ -153,28 +153,28 @@ class CVEditTest(unittest.TestCase):
 
         # User enters School
         input_school_box = self.browser.find_element_by_id('id_school')
-        self.assertEqual("University of Birmingham", input_school_box.text)
+        self.assertEqual('University of Birmingham', input_school_box.get_attribute('value'))
 
         # User enters location
         input_location_box = self.browser.find_element_by_id('id_location')
-        self.assertEqual('Edgbaston, Birmingham', input_school_box.text)
+        self.assertEqual('Edgbaston, Birmingham', input_location_box.get_attribute('value'))
 
         # User enters the Start and End Year
         input_start_year = Select(self.browser.find_element_by_id('id_start_year'))
         input_end_year = Select(self.browser.find_element_by_id('id_end_year'))
 
-        self.assertEqual("2017", input_start_year.first_selected_option)
-        self.assertEqual("2021", input_end_year.first_selected_option)
+        self.assertEqual("2017", input_start_year.first_selected_option.text)
+        self.assertEqual("2021", input_end_year.first_selected_option.text)
 
         # Enter Field of study
         field_of_study = self.browser.find_element_by_id('id_field_of_study')
-        self.assertEqual('Computer Science', field_of_study.text)
+        self.assertEqual('Computer Science', field_of_study.get_attribute('value'))
 
         # Enters Description
         input_description_box = self.browser.find_element_by_id('id_description')
         self.assertEqual(
             'First Year Software Workshop - 90% Robot Programming - 80% Introduction to Software Engineering - 71% First Year - Year Average 73%',
-            input_description_box)
+            input_description_box.get_attribute('value'))
 
         # Edits field of study to Maths
         field_of_study = self.browser.find_element_by_id('id_field_of_study')
