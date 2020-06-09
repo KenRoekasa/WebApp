@@ -57,6 +57,8 @@ def cv_education_new(request):
         form = EducationForm(request.POST)
         if form.is_valid():
             post = form.save(commit=False)
+            post.start_year = request.POST.get("start_year")
+            post.end_year = request.POST.get("end_year")
             post.save()
             return redirect('cv')
     else:
