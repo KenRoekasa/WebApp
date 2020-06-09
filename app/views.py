@@ -80,4 +80,6 @@ def cv_education_edit(request, pk):
             return redirect('cv')
     else:
         form = EducationForm(instance=post)
+        form.start_year = post.start_year
+        form.end_year = post.end_year
     return render(request, 'app/cv_education_edit.html', {'form': form, 'educations': educations})
