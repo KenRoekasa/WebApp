@@ -112,27 +112,27 @@ class CVEditTest(unittest.TestCase):
         field_of_study_text = self.browser.find_elements_by_class_name('field_of_study')
 
         self.assertTrue(
-            any(text == 'University of Birmingham' for text in school_texts)
+            any(text.text == 'University of Birmingham' for text in school_texts)
 
         )
 
         self.assertTrue(
-            any(text == 'University of Birmingham' for text in field_of_study_text)
+            any(text.text == 'University of Birmingham' for text in field_of_study_text)
 
         )
 
         self.assertTrue(
-            any(year == '2017-2021' for year in year_text)
+            any(year.year == '2017-2021' for year in year_text)
         )
 
         self.assertTrue(
             any(
-                text == 'First Year Software Workshop - 90% Robot Programming - 80% Introduction to Software Engineering - 71% First Year - Year Average 73%'
+                text.text == 'First Year Software Workshop - 90% Robot Programming - 80% Introduction to Software Engineering - 71% First Year - Year Average 73%'
                 for text in school_texts)
         )
 
         self.assertTrue(
-            any(text == 'Edgbaston, Birmingham' for text in location_text)
+            any(text.text == 'Edgbaston, Birmingham' for text in location_text)
         )
 
 
