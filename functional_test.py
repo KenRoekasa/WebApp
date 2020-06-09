@@ -126,10 +126,73 @@ class CVEditTest(unittest.TestCase):
             any(text.text == 'Edgbaston, Birmingham' for text in location_text)
         )
 
+    def test_add_edit_cv_education(self):
 
-#     def test_add_new_cv_education_validation(self):
-#
-# # nothing
+        # They login
+        self.browser.get('http://127.0.0.1:8000/admin')
+        username_box = self.browser.find_element_by_id('id_username')
+        password_box = self.browser.find_element_by_id('id_password')
+        username_box.send_keys('kenny')
+        password_box.send_keys('adminadmin123')
+        password_box.send_keys(Keys.ENTER)
+        time.sleep(1)
+
+        time.sleep(1)
+        # Goes back to cv page
+        self.browser.get('http://127.0.0.1:8000/cv/')
+
+        # Notices Edit button next to University of Birmingham
+
+        edit_button = self.browser.find_elements_by_class('edit_education_btn')[0]
+
+        # Clicks edit button
+        edit_button.click()
+        time.sleep(1)
+
+        # Sees the form has already been filed in with the existing information
+
+        # User enters School
+        input_school_box = self.browser.find_element_by_id('id_school')
+        self.assertEqual("University of Birmingham", input_school_box.text)
+
+        # User enters location
+        input_location_box = self.browser.find_element_by_id('id_location')
+        self.assertEqual('Edgbaston, Birmingham', input_school_box.text)
+
+        # User enters the Start and End Year
+        input_start_year = Select(self.browser.find_element_by_id('id_start_year'))
+        input_end_year = Select(self.browser.find_element_by_id('id_end_year'))
+
+        self.assertEqual("2017", input_start_year.first_selected_option)
+        self.assertEqual("2021", input_end_year.first_selected_option)
+
+        # Enter Field of study
+        field_of_study = self.browser.find_element_by_id('id_field_of_study')
+        self.assertEqual('Computer Science', field_of_study.text)
+
+        # Enters Description
+        input_description_box = self.browser.find_element_by_id('id_description')
+        self.assertEqual(
+            'First Year Software Workshop - 90% Robot Programming - 80% Introduction to Software Engineering - 71% First Year - Year Average 73%',
+            input_description_box)
+
+        # Edits field of study to Maths
+        field_of_study = self.browser.find_element_by_id('id_field_of_study')
+        field_of_study.clear()
+        field_of_study.send_keys('Maths')
+
+        # Save form
+        save_button = self.browser.find_element_by_class_name('btn')
+        save_button.click()
+        time.sleep(1)
+
+        # See changes
+        field_of_study_text = self.browser.find_elements_by_class_name('field_of_study')
+
+        self.assertTrue(
+            any(text.text == 'Maths' for text in field_of_study_text)
+
+        )
 
 
 if __name__ == '__main__':
