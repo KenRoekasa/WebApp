@@ -29,7 +29,7 @@ def blog_list(request):
 
 
 def cv(request):
-    educations = Education.objects.all()
+    educations = Education.objects.order_by('-end_year')
     return render(request, 'app/cv.html', {'educations': educations})
 
 
@@ -53,6 +53,7 @@ def blog_new(request):
 
 
 def cv_education_new(request):
+    educations = Education.objects.order_by('-end_year')
     if request.method == "POST":
         form = EducationForm(request.POST)
         if form.is_valid():
@@ -63,4 +64,4 @@ def cv_education_new(request):
             return redirect('cv')
     else:
         form = EducationForm()
-    return render(request, 'app/cv_education_edit.html', {'form': form})
+    return render(request, 'app/cv_education_edit.html', {'form': form, 'educations': educations})
