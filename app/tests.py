@@ -139,11 +139,13 @@ class CVPageTest(TestCase):
         self.assertNotIn('id = education_add_button', html)
 
     def test_cv_page_has_new_button_click_when_logged_in(self):
-        c = Client()
-        c.login(username='kenny', password='adminadmin123')
+        password = 'mypassword'
+
+        my_admin = User.objects.create_superuser('myuser', 'myemail@test.com', password)
+        self.client.login(username=my_admin.username, password=password)
         response = self.client.get('/cv/')
         html = response.content.decode('utf8')
-        self.assertIn('id = education_add_button', html)
+        self.assertIn("id = 'education_add_button'", html)
 
     # def test_cv_edit_education_save_POST_request(self):
     #     response = self.client.post('/blog/new/',
