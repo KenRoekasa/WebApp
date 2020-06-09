@@ -35,6 +35,7 @@ class Blog(models.Model):
 
 class Education(models.Model):
     school = models.CharField(max_length=255)
+    location = models.CharField(max_length=64)
     description = models.TextField()
     start_year = models.IntegerField()
     end_year = models.IntegerField()
