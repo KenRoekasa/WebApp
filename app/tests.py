@@ -148,10 +148,14 @@ class CVPageTest(TestCase):
 
     def test_cv_new_education_save_POST_request(self):
         response = self.client.post('/cv/edit/education/new/',
-                                    data={'school': 'The school of education', 'location':'London','description': '1st class degree',
-                                          'start_year': '2017', 'end_year': '2021', 'field_of_study': 'Comp Sci'})
+                                    data={'school': 'The school of education', 'location': 'London',
+                                          'description': '1st class degree',
+                                          'field_of_study': 'Comp Sci', 'start_year': "2017", 'end_year': "2021"})
+
+        # print(response.content.decode('utf8'))
 
         latest_item = Education.objects.all()[0]
+
         self.assertEqual(latest_item.school, "The school of education")
         self.assertEqual(latest_item.description, "1st class degree")
         self.assertEqual(latest_item.location, "London")
@@ -160,9 +164,9 @@ class CVPageTest(TestCase):
         self.assertEqual(latest_item.field_of_study, "Comp Sci")
 
     def test_displays_all_cv_education_items(self):
-
-        Education.objects.create(school='The school of education', location='London', description='1st class degree', start_year
-        =2017, end_year=2021, field_of_study='Comp Sci')
+        Education.objects.create(school='The school of education', location='London', description='1st class degree',
+                                 start_year
+                                 =2017, end_year=2021, field_of_study='Comp Sci')
         response = self.client.get('/cv/')
         self.assertIn('The school of education', response.content.decode())
         self.assertIn('London', response.content.decode())
@@ -170,7 +174,6 @@ class CVPageTest(TestCase):
         self.assertIn('2017', response.content.decode())
         self.assertIn('2021', response.content.decode())
         self.assertIn('Comp Sci', response.content.decode())
-
 
 
 class PortfolioPageTest(TestCase):

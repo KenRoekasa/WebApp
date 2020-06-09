@@ -5,7 +5,7 @@ from .models import Blog, Education
 
 
 def year_choices():
-    return [(r, r) for r in range(1984, datetime.date.today().year + 1)]
+    return [(r, r) for r in range(1984, datetime.date.today().year + 1000)]
 
 
 class BlogForm(forms.ModelForm):
