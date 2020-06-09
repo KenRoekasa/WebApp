@@ -186,7 +186,6 @@ class CVPageTest(TestCase):
                                  start_year
                                  =2017, end_year=2021, field_of_study='Comp Sci', id=1)
         found = resolve('/cv/edit/education/0/')
-        print(found.func)
         self.assertEqual(found.func, cv_education_edit)
 
     def test_cv_education_new_edit_page_returns_correct_html(self):
