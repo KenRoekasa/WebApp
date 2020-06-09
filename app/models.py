@@ -17,10 +17,6 @@ class Project(models.Model):
     image = models.ImageField(upload_to='images')
     published_date = models.DateTimeField(blank=True, null=True)
 
-    def publish(self):
-        self.published_date = timezone.now()
-        self.save()
-
     def __str__(self):
         return self.title
 
@@ -31,10 +27,6 @@ class Blog(models.Model):
     text = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
-
-    def publish(self):
-        self.published_date = timezone.now()
-        self.save()
 
     def __str__(self):
         return self.title
@@ -49,3 +41,6 @@ class Education(models.Model):
     end_year = models.PositiveIntegerField(default=timezone.now().year,
                                            validators=[MinValueValidator(1984), MaxValueValidator(3000)])
     field_of_study = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.school
