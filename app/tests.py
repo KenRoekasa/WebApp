@@ -152,8 +152,6 @@ class CVPageTest(TestCase):
                                           'description': '1st class degree',
                                           'field_of_study': 'Comp Sci', 'start_year': "2017", 'end_year': "2021"})
 
-        # print(response.content.decode('utf8'))
-
         latest_item = Education.objects.all()[0]
 
         self.assertEqual(latest_item.school, "The school of education")
@@ -174,6 +172,38 @@ class CVPageTest(TestCase):
         self.assertIn('2017', response.content.decode())
         self.assertIn('2021', response.content.decode())
         self.assertIn('Comp Sci', response.content.decode())
+
+    def test_education_new_url_resolves_to_cv_new_view(self):
+        Education.objects.create(school='The school of education', location='London', description='1st class degree',
+                                 start_year
+                                 =2017, end_year=2021, field_of_study='Comp Sci', id=1)
+        found = resolve('/cv/edit/education/1/')
+        self.assertEqual(found.func, cv_education_edit)
+
+    def test_cv_education_new_edit_page_returns_correct_html(self):
+        Education.objects.create(school='The school of education', location='London', description='1st class degree',
+                                 start_year
+                                 =2017, end_year=2021, field_of_study='Comp Sci', id=1)
+        response = self.client.get('/cv/edit/education/1/')
+        self.assertTemplateUsed(response, 'app/cv_education_edit.html')
+
+    def test_cv_education_edit_save_POST(self):
+        Education.objects.create(school='The school of education', location='London', description='1st class degree',
+                                 start_year
+                                 =2017, end_year=2021, field_of_study='Maths', id=1)
+        response = self.client.post('/cv/edit/education/1/',
+                                    data={'school': 'The school of education', 'location': 'London',
+                                          'description': '1st class degree',
+                                          'field_of_study': 'Comp Sci', 'start_year': "2017", 'end_year': "2021"})
+
+        latest_item = Education.objects.all()[0]
+
+        self.assertEqual(latest_item.school, "The school of education")
+        self.assertEqual(latest_item.description, "1st class degree")
+        self.assertEqual(latest_item.location, "London")
+        self.assertEqual(latest_item.start_year, 2017)
+        self.assertEqual(latest_item.end_year, 2021)
+        self.assertEqual(latest_item.field_of_study, "Maths")
 
 
 class PortfolioPageTest(TestCase):
