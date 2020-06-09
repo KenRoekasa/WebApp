@@ -16,15 +16,6 @@ class CVEditTest(unittest.TestCase):
     def tearDown(self):
         self.browser.quit()
 
-    # def test_user_admin_login(self):
-    #     self.browser.get('http://127.0.0.1:8000/admin')
-    #     username_box = self.browser.find_element_by_id('id_username')
-    #     password_box = self.browser.find_element_by_id('id_password')
-    #     username_box.send_keys('kenny')
-    #     password_box.send_keys('adminadmin123')
-    #     password_box.send_keys(Keys.ENTER)
-    #     time.sleep(1)
-
     def test_add_new_cv_education(self):
         # User opens site add a new to their education
         self.browser.get('http://127.0.0.1:8000')
@@ -96,7 +87,7 @@ class CVEditTest(unittest.TestCase):
         input_description_box.send_keys(
             'First Year Software Workshop - 90% Robot Programming - 80% Introduction to Software Engineering - 71% First Year - Year Average 73%')
         # Press saves
-        save_button = self.browser.find_element_by_class_name('save')
+        save_button = self.browser.find_element_by_class_name('btn')
         save_button.click()
         time.sleep(1)
 
@@ -104,33 +95,32 @@ class CVEditTest(unittest.TestCase):
         # Sees the changes have been affected to the page
 
         school_texts = self.browser.find_elements_by_class_name('school')
-        year_text = self.browser.find_element_by_class_name('year')
+        year_text = self.browser.find_elements_by_class_name('year')
 
-        location_text = self.browser.find_element_by_class_name('location')
+        location_text = self.browser.find_elements_by_class_name('location')
 
         description_text = self.browser.find_elements_by_tag_name('p')
 
         field_of_study_text = self.browser.find_elements_by_class_name('field_of_study')
 
         self.assertTrue(
-            any(text.text == 'University of Birmingham' for text in school_texts)
+            any('University of Birmingham' in text.text for text in school_texts)
+        )
+
+        self.assertTrue(
+            any(text.text == 'Computer Science' for text in field_of_study_text)
 
         )
 
         self.assertTrue(
-            any(text.text == 'University of Birmingham' for text in field_of_study_text)
-
-        )
-
-        self.assertTrue(
-            any(year.year == '2017-2021' for year in year_text)
+            any(year.text == '2017-2021' for year in year_text)
         )
 
         self.assertTrue(
             any(
                 text.text == 'First Year Software Workshop - 90% Robot Programming - 80% Introduction to Software Engineering - 71% First Year - Year Average 73%'
-                for text in school_texts)
-        )
+                for text in description_text)
+            , description_text)
 
         self.assertTrue(
             any(text.text == 'Edgbaston, Birmingham' for text in location_text)
