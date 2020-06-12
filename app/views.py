@@ -2,9 +2,9 @@ from django.db.models.functions import Coalesce
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 
-from .models import Project, Blog, Education
+from .models import Project, Blog, Education, TechSkills
 
-from .forms import BlogForm, EducationForm
+from .forms import BlogForm, EducationForm, TechSkillsForm
 
 from django.shortcuts import redirect
 
@@ -30,7 +30,8 @@ def blog_list(request):
 
 def cv(request):
     educations = Education.objects.order_by('-end_year')
-    return render(request, 'app/cv.html', {'educations': educations})
+    skills = TechSkills.objects.order_by('id')
+    return render(request, 'app/cv.html', {'educations': educations, 'skills': skills})
 
 
 def blog_detail(request, pk):
@@ -81,5 +82,31 @@ def cv_education_edit(request, pk):
     else:
         form = EducationForm(instance=post)
 
-
     return render(request, 'app/cv_education_edit.html', {'form': form, 'educations': educations})
+
+
+def cv_tech_skills_new(request):
+    skills = TechSkills.objects.order_by('id')
+    if request.method == "POST":
+        form = TechSkillsForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.save()
+            return redirect('cv')
+    else:
+        form = TechSkillsForm()
+    return render(request, 'app/cv_tech_skills_edit.html', {'form': form})
+
+
+def cv_tech_skills_edit(request, pk):
+    post = get_object_or_404(TechSkills, pk=pk)
+    skills = TechSkills.objects.order_by('id')
+    if request.method == "POST":
+        form = TechSkillsForm(request.POST, instance=post)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.save()
+            return redirect('cv')
+    else:
+        form = TechSkillsForm(instance=post)
+    return render(request, 'app/cv_tech_skills_edit.html', {'form': form, 'skills': skills})

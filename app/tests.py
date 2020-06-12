@@ -6,8 +6,9 @@ from django.test import TestCase, Client
 from django.urls import resolve
 from django.utils import timezone
 
-from .views import home, cv, project_list, blog_list, cv_education_new, cv_education_edit
-from .models import Blog, Project, Education
+from .views import home, cv, project_list, blog_list, cv_education_new, cv_education_edit, cv_tech_skills_edit, \
+    cv_tech_skills_new
+from .models import Blog, Project, Education, TechSkills
 
 
 class HomePageTest(TestCase):
@@ -156,7 +157,9 @@ class CVEducationSectionTest(TestCase):
         Education.objects.create(school='The school of education', location='London', description='1st class degree',
                                  start_year
                                  =2017, end_year=2021, field_of_study='Comp Sci', id=1)
-        found = resolve('/cv/edit/education/edit/1')
+
+        print(Education.objects.all()[0].id)
+        found = resolve('/cv/edit/education/1/')
         self.assertEqual(found.func, cv_education_edit)
 
     def test_cv_education_new_edit_page_returns_correct_html(self):
@@ -196,12 +199,12 @@ class CVTechSkillsSectionTest(TestCase):
 
     def test_tech_skills_edit_url_resolves_to_tech_skills_edit_view(self):
         TechSkills.objects.create(skill='Django', id=1)
-        found = resolve('/cv/edit/tech_skills/edit/1')
+        found = resolve('/cv/edit/techskills/1/')
         self.assertEqual(found.func, cv_tech_skills_edit)
 
     def test_cv_tech_skills_edit_page_returns_correct_html(self):
         TechSkills.objects.create(skill='Django', id=1)
-        response = self.client.get('/cv/edit/techskills/1')
+        response = self.client.get('/cv/edit/techskills/1/')
         self.assertTemplateUsed(response, 'app/cv_tech_skills_edit.html')
 
     def test_cv_page_has_tech_skills_section(self):
@@ -232,7 +235,7 @@ class CVTechSkillsSectionTest(TestCase):
         response = self.client.post('/cv/edit/techskills/1/',
                                     data={'skill': 'Python'})
 
-        latest_item = Education.objects.all()[0]
+        latest_item = TechSkills.objects.all()[0]
 
         self.assertEqual(latest_item.skill, "Python")
 

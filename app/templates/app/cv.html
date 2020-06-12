@@ -33,20 +33,9 @@
     <div class="cv_section">
         <h1>Tech Skills</h1>
         <ul class="two_column_list">
-            <li>Java (Fluent)</li>
-            <li> C# (Working Knowledge)</li>
-            <li> C/C++ (Working Knowledge)</li>
-            <li>Mips (Working Knowledge)</li>
-            <li>Python (Familiar)</li>
-            <li>SQL (Working Knowledge)</li>
-            <li> Git</li>
-            <li> IntelliJ IDEA</li>
-            <li>Android Studio</li>
-            <li>Eclipse</li>
-            <li> Visual Studios (Familiar)</li>
-            <li> Virtual Box</li>
-            <li>Unity</li>
-            <li> Blender</li>
+            {% for skill in skills %}
+            <li>{{ skill.skill}}</li>
+            {% endfor %}
         </ul>
         <hr class="solid">
     </div>
