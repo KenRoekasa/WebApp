@@ -24,14 +24,21 @@
                     {{ education.description }}
                 </p>
             </div>
+            {% if user.is_authenticated %}
             <div><a href="{% url 'cv_education_edit' pk=education.pk %}" id='edit_education_btn'><i
                     class="fas fa-edit"></i></a></div>
+            {% endif %}
         </div>
         {% endfor %}
         <hr class="solid">
     </div>
     <div class="cv_section">
         <h1>Tech Skills</h1>
+        {% if user.is_authenticated %}
+        <div>
+            <a href="{% url 'cv_tech_skils_new' %}" id='add_tech_skills_btn'><i class="fas fa-plus-circle"></i></a>
+        </div>
+        {% endif %}
         <ul class="two_column_list">
             {% for skill in skills %}
             <li>{{ skill.skill}}</li>

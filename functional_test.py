@@ -226,8 +226,10 @@ class CVEditTest(unittest.TestCase):
         save_button.click()
         time.sleep(1)
         # See changes
-        field_of_study_list = self.browser.find_elements_by_css_selector('.tech_skills li')
-        self.assertTrue(any('Django' in item.text for item in field_of_study_list))
+        techskills_list = self.browser.find_elements_by_css_selector('li')
+        print(techskills_list)
+
+        self.assertTrue(any('Django' in item.text for item in techskills_list))
 
 
 if __name__ == '__main__':
