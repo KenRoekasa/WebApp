@@ -6,7 +6,7 @@ from django.test import TestCase, Client
 from django.urls import resolve
 from django.utils import timezone
 
-from .views import home, cv, project_list, blog_list, cv_education_new,cv_education_edit
+from .views import home, cv, project_list, blog_list, cv_education_new, cv_education_edit
 from .models import Blog, Project, Education
 
 
@@ -111,15 +111,7 @@ class BlogPageTest(TestCase):
         self.assertEqual(second_save_blog.text, 'Hello this is also blog post even longer')
 
 
-class CVPageTest(TestCase):
-    def test_root_url_resolves_to_cv_view(self):
-        found = resolve('/cv/')
-        self.assertEqual(found.func, cv)
-
-    def test_cv_page_returns_correct_html(self):
-        response = self.client.get('/cv/')
-        self.assertTemplateUsed(response, 'app/cv.html')
-
+class CVEducationSectionTest(TestCase):
     def test_education_new_url_resolves_to_cv_new_view(self):
         found = resolve('/cv/edit/education/new/')
         self.assertEqual(found.func, cv_education_new)
@@ -132,19 +124,6 @@ class CVPageTest(TestCase):
         response = self.client.get('/cv/')
         html = response.content.decode('utf8')
         self.assertIn('<h1>Education</h1>', html)
-
-    def test_cv_page_has_no_new_button_click_when_logged_out(self):
-        response = self.client.get('/cv/')
-        html = response.content.decode('utf8')
-        self.assertNotIn('education_add_button', html)
-
-    def test_cv_page_has_new_button_click_when_logged_in(self):
-        password = 'mypassword'
-        my_admin = User.objects.create_superuser('myuser', 'myemail@test.com', password)
-        self.client.login(username=my_admin.username, password=password)
-        response = self.client.get('/cv/')
-        html = response.content.decode('utf8')
-        self.assertIn("education_add_button", html)
 
     def test_cv_new_education_save_POST_request(self):
         response = self.client.post('/cv/edit/education/new/',
@@ -173,19 +152,11 @@ class CVPageTest(TestCase):
         self.assertIn('2021', response.content.decode())
         self.assertIn('Comp Sci', response.content.decode())
 
-    def test_education_new_url_resolves_to_cv_new_view(self):
+    def test_education_edit_url_resolves_to_cv_edit_view(self):
         Education.objects.create(school='The school of education', location='London', description='1st class degree',
                                  start_year
                                  =2017, end_year=2021, field_of_study='Comp Sci', id=1)
-        found = resolve('/cv/edit/education/new/')
-        self.assertEqual(found.func, cv_education_new)
-
-    def test_education_edit_url_resolves_to_cv_edit_view(self):
-        Education.objects.create(school='The school of education', location='London',
-                                 description='1st class degree',
-                                 start_year
-                                 =2017, end_year=2021, field_of_study='Comp Sci', id=1)
-        found = resolve('/cv/edit/education/0/')
+        found = resolve('/cv/edit/education/edit/1')
         self.assertEqual(found.func, cv_education_edit)
 
     def test_cv_education_new_edit_page_returns_correct_html(self):
@@ -212,6 +183,81 @@ class CVPageTest(TestCase):
         self.assertEqual(latest_item.start_year, 2017)
         self.assertEqual(latest_item.end_year, 2021)
         self.assertEqual(latest_item.field_of_study, "Maths")
+
+
+class CVTechSkillsSectionTest(TestCase):
+    def test_tech_skills_new_url_resolves_to_tech_skills_new_view(self):
+        found = resolve('/cv/edit/techskills/new/')
+        self.assertEqual(found.func, cv_tech_skills_new)
+
+    def test_cv_tech_skills_new_page_returns_correct_html(self):
+        response = self.client.get('/cv/edit/techskills/new/')
+        self.assertTemplateUsed(response, 'app/cv_tech_skills_edit.html')
+
+    def test_tech_skills_edit_url_resolves_to_tech_skills_edit_view(self):
+        TechSkills.objects.create(skill='Django', id=1)
+        found = resolve('/cv/edit/tech_skills/edit/1')
+        self.assertEqual(found.func, cv_tech_skills_edit)
+
+    def test_cv_tech_skills_edit_page_returns_correct_html(self):
+        TechSkills.objects.create(skill='Django', id=1)
+        response = self.client.get('/cv/edit/techskills/1')
+        self.assertTemplateUsed(response, 'app/cv_tech_skills_edit.html')
+
+    def test_cv_page_has_tech_skills_section(self):
+        response = self.client.get('/cv/')
+        html = response.content.decode('utf8')
+        self.assertIn('<h1>Tech Skills</h1>', html)
+
+    def test_displays_all_tech_skills_items(self):
+        TechSkills.objects.create(skill='Django')
+        TechSkills.objects.create(skill='Python')
+        TechSkills.objects.create(skill='Java')
+
+        response = self.client.get('/cv/')
+        self.assertIn('Django', response.content.decode())
+        self.assertIn('Python', response.content.decode())
+        self.assertIn('Java', response.content.decode())
+
+    def test_cv_new_tech_skills_save_POST_request(self):
+        response = self.client.post('/cv/edit/techskills/new/',
+                                    data={'skill': 'Django'})
+
+        latest_item = TechSkills.objects.all()[0]
+
+        self.assertEqual(latest_item.skill, "Django")
+
+    def test_cv_tech_skills_edit_save_POST(self):
+        TechSkills.objects.create(skill='Django', id=1)
+        response = self.client.post('/cv/edit/techskills/1/',
+                                    data={'skill': 'Python'})
+
+        latest_item = Education.objects.all()[0]
+
+        self.assertEqual(latest_item.skill, "Python")
+
+
+class CVPageTest(TestCase):
+    def test_root_url_resolves_to_cv_view(self):
+        found = resolve('/cv/')
+        self.assertEqual(found.func, cv)
+
+    def test_cv_page_returns_correct_html(self):
+        response = self.client.get('/cv/')
+        self.assertTemplateUsed(response, 'app/cv.html')
+
+    def test_cv_page_has_no_new_button_click_when_logged_out(self):
+        response = self.client.get('/cv/')
+        html = response.content.decode('utf8')
+        self.assertNotIn('education_add_button', html)
+
+    def test_cv_page_has_new_button_click_when_logged_in(self):
+        password = 'mypassword'
+        my_admin = User.objects.create_superuser('myuser', 'myemail@test.com', password)
+        self.client.login(username=my_admin.username, password=password)
+        response = self.client.get('/cv/')
+        html = response.content.decode('utf8')
+        self.assertIn("education_add_button", html)
 
 
 class PortfolioPageTest(TestCase):
