@@ -16,7 +16,7 @@ class CVEditTest(unittest.TestCase):
     def tearDown(self):
         self.browser.quit()
 
-    def test_add_new_cv_education(self):
+    def test010_add_new_cv_education(self):
         # User opens site add a new to their education
         self.browser.get('http://127.0.0.1:8000')
 
@@ -126,8 +126,7 @@ class CVEditTest(unittest.TestCase):
             any(text.text == 'Edgbaston, Birmingham' for text in location_text)
         )
 
-    def test_add_edit_cv_education(self):
-
+    def test020_add_edit_cv_education(self):
         # They login
         self.browser.get('http://127.0.0.1:8000/admin')
         username_box = self.browser.find_element_by_id('id_username')
@@ -191,8 +190,44 @@ class CVEditTest(unittest.TestCase):
 
         self.assertTrue(
             any(text.text == 'Maths' for text in field_of_study_text)
-
         )
+
+        def test030_add_new_tech_skills(self):
+            # They login
+            self.browser.get('http://127.0.0.1:8000/admin')
+            username_box = self.browser.find_element_by_id('id_username')
+            password_box = self.browser.find_element_by_id('id_password')
+            username_box.send_keys('kenny')
+            password_box.send_keys('adminadmin123')
+            password_box.send_keys(Keys.ENTER)
+            time.sleep(1)
+
+            time.sleep(1)
+            # Goes back to cv page
+            self.browser.get('http://127.0.0.1:8000/cv/')
+
+            # Locates the Tech Skills section
+            headers = self.browser.find_elements_by_tag_name('h1')
+            self.assertTrue(any('Tech Skills' in h.text for h in headers))
+
+            # Notices Add button
+            add_button = self.browser.find_elements_by_id('add_tech_skills_btn')[0]
+            # Presses added button
+            add_button.click()
+            time.sleep(1)
+
+            # Enters Django into Text box
+            input_field = self.browser.find_element_by_id('id_skill')
+            input_field.send_keys('Django')
+
+            # Press saves
+            # Save form
+            save_button = self.browser.find_element_by_class_name('btn')
+            save_button.click()
+            time.sleep(1)
+            # See changes
+            field_of_study_list = self.browser.find_elements_by_css_selector('.tech_skills li')
+            self.assertTrue(any('Django' in item.text for item in field_of_study_list))
 
 
 if __name__ == '__main__':
