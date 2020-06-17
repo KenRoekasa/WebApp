@@ -101,12 +101,17 @@ def cv_tech_skills_new(request):
 def cv_tech_skills_edit(request, pk):
     post = get_object_or_404(TechSkills, pk=pk)
     skills = TechSkills.objects.order_by('id')
-    if request.method == "POST":
+    if request.method == "POST" and 'delete' in request.POST:
+        instance = post
+        instance.delete()
+        return redirect('cv')
+    elif request.method == "POST":
         form = TechSkillsForm(request.POST, instance=post)
         if form.is_valid():
             post = form.save(commit=False)
             post.save()
             return redirect('cv')
+
     else:
         form = TechSkillsForm(instance=post)
     return render(request, 'app/cv_tech_skills_edit.html', {'form': form, 'skills': skills})

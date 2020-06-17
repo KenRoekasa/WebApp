@@ -42,7 +42,6 @@
         {% endif %}
         <ul class="two_column_list">
             {% for skill in skills %}
-
             <li>{{ skill.skill}}
                 {% if user.is_authenticated %}
                 <a href="{% url 'cv_tech_skils_edit' pk=skill.pk %}" id='edit_tech_skills_btn'><i

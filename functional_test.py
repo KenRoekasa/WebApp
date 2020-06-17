@@ -290,7 +290,7 @@ class CVEditTest(unittest.TestCase):
         # Sees form is prefilled
         skills_textbox = self.browser.find_element_by_id('id_skill')
         # Focuses on text box that is filled with django
-        self.assertEqual('Django', skills_textbox.get_attribute('value'))
+        self.assertEqual('Java', skills_textbox.get_attribute('value'))
 
         # Press save button
         # Save form
