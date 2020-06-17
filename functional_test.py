@@ -239,12 +239,10 @@ class CVEditTest(unittest.TestCase):
         password_box.send_keys('adminadmin123')
         password_box.send_keys(Keys.ENTER)
         time.sleep(1)
-
-        time.sleep(1)
         # Goes back to cv page
         self.browser.get('http://127.0.0.1:8000/cv/')
 
-        # Notices Edit button next to Tech Skills
+        # Notices Edit button next to a Tech Skills
 
         edit_button = self.browser.find_elements_by_id('edit_tech_skills_btn')[0]
 
@@ -252,19 +250,12 @@ class CVEditTest(unittest.TestCase):
         edit_button.click()
         time.sleep(1)
 
-        # Sees the listed tech skills changes to text boxes
-
-        # See changes
-        techskills_text_boxes = self.browser.find_elements_by_class('edit_tech_skills_box')
-
+        # Sees form is prefilled
+        skills_textbox = self.browser.find_element_by_id('id_skill')
         # Focuses on text box that is filled with django
-        for skills in techskills_text_boxes:
-            if skills.get_attribute('value') == 'Django':
-                skills.clear()
-
-                # Replace with Java
-                skills.send_keys('Java')
-                break
+        self.assertEqual('Django', skills_textbox.get_attribute('value'))
+        skills_textbox.clear()
+        skills_textbox.send_keys('Java')
 
         # Press save button
         # Save form
