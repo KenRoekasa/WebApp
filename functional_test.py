@@ -230,7 +230,7 @@ class CVEditTest(unittest.TestCase):
 
         self.assertTrue(any('Django' in item.text for item in techskills_list))
 
-    def test040_edit_new_tech_skills(self):
+    def test040_edit_delete_tech_skills(self):
         # They login
         self.browser.get('http://127.0.0.1:8000/admin')
         username_box = self.browser.find_element_by_id('id_username')
@@ -267,6 +267,41 @@ class CVEditTest(unittest.TestCase):
         techskills_list = self.browser.find_elements_by_css_selector('li')
 
         self.assertTrue(any('Java' in item.text for item in techskills_list))
+
+    def test050_delete_new_tech_skills(self):
+        # They login
+        self.browser.get('http://127.0.0.1:8000/admin')
+        username_box = self.browser.find_element_by_id('id_username')
+        password_box = self.browser.find_element_by_id('id_password')
+        username_box.send_keys('kenny')
+        password_box.send_keys('adminadmin123')
+        password_box.send_keys(Keys.ENTER)
+        time.sleep(1)
+        # Goes back to cv page
+        self.browser.get('http://127.0.0.1:8000/cv/')
+
+        # Notices Edit button next to a Tech Skills
+        edit_button = self.browser.find_elements_by_id('edit_tech_skills_btn')[0]
+
+        # Clicks edit button
+        edit_button.click()
+        time.sleep(1)
+
+        # Sees form is prefilled
+        skills_textbox = self.browser.find_element_by_id('id_skill')
+        # Focuses on text box that is filled with django
+        self.assertEqual('Django', skills_textbox.get_attribute('value'))
+
+        # Press save button
+        # Save form
+        delete_button = self.browser.find_element_by_id('delete_btn')
+        delete_button.click()
+        time.sleep(1)
+
+        # See changes
+        techskills_list = self.browser.find_elements_by_css_selector('li')
+
+        self.assertTrue(any('Java' not in item.text for item in techskills_list))
 
 
 if __name__ == '__main__':
