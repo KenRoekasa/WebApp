@@ -227,9 +227,55 @@ class CVEditTest(unittest.TestCase):
         time.sleep(1)
         # See changes
         techskills_list = self.browser.find_elements_by_css_selector('li')
-        print(techskills_list)
 
         self.assertTrue(any('Django' in item.text for item in techskills_list))
+
+    def test040_edit_new_tech_skills(self):
+        # They login
+        self.browser.get('http://127.0.0.1:8000/admin')
+        username_box = self.browser.find_element_by_id('id_username')
+        password_box = self.browser.find_element_by_id('id_password')
+        username_box.send_keys('kenny')
+        password_box.send_keys('adminadmin123')
+        password_box.send_keys(Keys.ENTER)
+        time.sleep(1)
+
+        time.sleep(1)
+        # Goes back to cv page
+        self.browser.get('http://127.0.0.1:8000/cv/')
+
+        # Notices Edit button next to Tech Skills
+
+        edit_button = self.browser.find_elements_by_id('edit_tech_skills_btn')[0]
+
+        # Clicks edit button
+        edit_button.click()
+        time.sleep(1)
+
+        # Sees the listed tech skills changes to text boxes
+
+        # See changes
+        techskills_text_boxes = self.browser.find_elements_by_class('edit_tech_skills_box')
+
+        # Focuses on text box that is filled with django
+        for skills in techskills_text_boxes:
+            if skills.get_attribute('value') == 'Django':
+                skills.clear()
+
+                # Replace with Java
+                skills.send_keys('Java')
+                break
+
+        # Press save button
+        # Save form
+        save_button = self.browser.find_element_by_class_name('btn')
+        save_button.click()
+        time.sleep(1)
+
+        # See changes
+        techskills_list = self.browser.find_elements_by_css_selector('li')
+
+        self.assertTrue(any('Java' in item.text for item in techskills_list))
 
 
 if __name__ == '__main__':
