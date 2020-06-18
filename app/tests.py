@@ -7,8 +7,8 @@ from django.urls import resolve
 from django.utils import timezone
 
 from .views import home, cv, project_list, blog_list, cv_education_new, cv_education_edit, cv_tech_skills_edit, \
-    cv_tech_skills_new
-from .models import Blog, Project, Education, TechSkills
+    cv_tech_skills_new, cv_work_exp_edit, cv_work_exp_new
+from .models import Blog, Project, Education, TechSkills, WorkExperience
 
 
 class HomePageTest(TestCase):
@@ -238,6 +238,73 @@ class CVTechSkillsSectionTest(TestCase):
         latest_item = TechSkills.objects.all()[0]
 
         self.assertEqual(latest_item.skill, "Python")
+
+
+class CVWorkExperienceSectionTest(TestCase):
+    def test_work_experience_new_url_resolves_to_tech_skills_new_view(self):
+        found = resolve('/cv/edit/workexp/new/')
+        self.assertEqual(found.func, cv_work_exp_new)
+
+    def test_cv_work_experience_new_page_returns_correct_html(self):
+        response = self.client.get('/cv/edit/workexp/new/')
+        self.assertTemplateUsed(response, 'app/cv_work_experience_edit.html')
+
+    def test_work_experience_edit_url_resolves_to_tech_skills_edit_view(self):
+        WorkExperience.objects.create(title='CEO', company='Google', description='Working',
+                                      start_date=timezone.now(), end_date=timezone.now(), id=1)
+        found = resolve('/cv/edit/workexp/1/')
+        self.assertEqual(found.func, cv_work_exp_edit)
+
+    def test_cv_work_experience_edit_page_returns_correct_html(self):
+        WorkExperience.objects.create(title='CEO', company='Google', description='Working',
+                                      start_date=timezone.now(), end_date=timezone.now(),
+                                      id=1)
+        response = self.client.get('/cv/edit/workexp/1/')
+        self.assertTemplateUsed(response, 'app/cv_work_experience_edit.html')
+
+    def test_cv_page_has_work_experience_section(self):
+        response = self.client.get('/cv/')
+        html = response.content.decode('utf8')
+        self.assertIn('<h1>Work Experiences</h1>', html)
+
+    def test_displays_all_work_experience_items(self):
+        WorkExperience.objects.create(title='CEO', company='Google', description='Working',
+                                      start_date=timezone.now(), end_date=timezone.now())
+        WorkExperience.objects.create(title='Senior Lead Programmer', company='Facebook', description='Testing',
+                                      start_date=timezone.now(), end_date=timezone.now())
+
+        response = self.client.get('/cv/')
+        self.assertIn('CEO', response.content.decode())
+        self.assertIn('Senior Lead Programmer', response.content.decode())
+        self.assertIn('Google', response.content.decode())
+        self.assertIn('Facebook', response.content.decode())
+        self.assertIn('Working', response.content.decode())
+        self.assertIn('Testing', response.content.decode())
+
+    def test_cv_new_work_experience_save_POST_request(self):
+        response = self.client.post('/cv/edit/workexp/new/',
+                                    data={
+                                        'title': 'CEO', 'company': 'Google', 'description': 'Working',
+                                        'start_date': timezone.now(), 'end_date': timezone.now()})
+
+        latest_item = TechSkills.objects.all()[0]
+
+        self.assertEqual(latest_item.title, "CEO")
+        self.assertEqual(latest_item.company, "Google")
+        self.assertEqual(latest_item.description, "Working")
+        self.assertEqual(latest_item.start_date, "120")
+        self.assertEqual(latest_item.end_date, "2012")
+
+    def test_cv_work_experience_edit_save_POST(self):
+        WorkExperience.objects.create(title='CEO', company='Google', description='Working', start_date='', end_date='')
+        response = self.client.post('/cv/edit/workexp/1/',
+                                    data={
+                                        'title': 'Owner', 'company': 'Google', 'description': 'Working',
+                                        'start_date': timezone.now(), 'end_date': timezone.now()})
+
+        latest_item = TechSkills.objects.all()[0]
+
+        self.assertEqual(latest_item.title, "Owner")
 
 
 class CVPageTest(TestCase):
