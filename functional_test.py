@@ -126,7 +126,7 @@ class CVEditTest(unittest.TestCase):
             any(text.text == 'Edgbaston, Birmingham' for text in location_text)
         )
 
-    def test020_add_edit_cv_education(self):
+    def test020_edit_cv_education(self):
         # They login
         self.browser.get('http://127.0.0.1:8000/admin')
         username_box = self.browser.find_element_by_id('id_username')
@@ -303,6 +303,93 @@ class CVEditTest(unittest.TestCase):
 
         self.assertTrue(any('Java' not in item.text for item in techskills_list))
 
+    def test060_add_new_cv_work_experience(self):
+        # They login
+        self.browser.get('http://127.0.0.1:8000/admin')
+        username_box = self.browser.find_element_by_id('id_username')
+        password_box = self.browser.find_element_by_id('id_password')
+        username_box.send_keys('kenny')
+        password_box.send_keys('adminadmin123')
+        password_box.send_keys(Keys.ENTER)
+        time.sleep(1)
 
-if __name__ == '__main__':
-    unittest.main(warnings='ignore')
+        # User opens site add a new to their education
+        self.browser.get('http://127.0.0.1:8000/cv')
+
+        time.sleep(1)
+
+        # Locates the Work Experience section
+        headers = self.browser.find_elements_by_tag_name('h1')
+        self.assertTrue(any('Work Experience' in h.text for h in headers))
+
+        # Notices an add button
+        add_button = self.browser.find_element_by_id('work_experience_add_button')
+        # Presses the add button
+        add_button.click()
+
+        time.sleep(1)
+        # Displays a form overlaying the cv page it has been greyed out in the background
+
+        # User enters School
+        input_school_box = self.browser.find_element_by_id('id_company')
+        input_school_box.send_keys("Google")
+
+        # User enters location
+        input_location_box = self.browser.find_element_by_id('id_location')
+        input_location_box.send_keys('Silicon Valley')
+
+        # User enters location
+        input_location_box = self.browser.find_element_by_id('id_title')
+        input_location_box.send_keys('CEO')
+
+        # User enters the Start and End date
+        input_start_year = self.browser.find_element_by_id('id_start_date')
+        input_end_year = self.browser.find_element_by_id('id_end_date')
+
+        input_start_year.select_by_visible_text("2015")
+        input_end_year.select_by_visible_text("2021")
+
+        # Enters Description
+        input_description_box = self.browser.find_element_by_id('id_description')
+        input_description_box.send_keys(
+            'I did this and this and this')
+
+        # Press saves
+        save_button = self.browser.find_element_by_class_name('btn')
+        save_button.click()
+        time.sleep(1)
+
+        # Redirects to main cv page
+        # Sees the changes have been affected to the page
+
+        title_texts = self.browser.find_elements_by_class_name('title')
+        company_text = self.browser.find_elements_by_class_name('company')
+
+        location_text = self.browser.find_elements_by_class_name('location')
+        date_text = self.browser.find_elements_by_class_name('date')
+
+        description_text = self.browser.find_elements_by_tag_name('p')
+
+        self.assertTrue(
+            any('CEO' in text.text for text in title_texts)
+        )
+
+        self.assertTrue(
+            any(year.text == 'Google' for year in company_text)
+        )
+
+        self.assertTrue(
+            any(
+                text.text == 'I did this and this and this'
+                for text in description_text)
+            , description_text)
+
+        self.assertTrue(
+            any(text.text == 'Silicon Valley' for text in location_text)
+        )
+        self.assertTrue(
+            any(date.text == 'July 2017 - March 2020' for date in date_text)
+        )
+
+        if __name__ == '__main__':
+            unittest.main(warnings='ignore')
