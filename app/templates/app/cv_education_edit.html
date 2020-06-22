@@ -4,11 +4,14 @@
     <div class='edit_container_form'>
         <div class='form'>
             <h2>New Education</h2>
+            <a href="{% url 'cv' %}" class="close" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </a>
             <form method="POST" class="post-form">{% csrf_token %}
                 {{ form.as_p }}
                 <div class="save">
                     <button type="submit" class="btn btn-default">Save</button>
-                     <button type="submit" id='delete_btn' name="delete" class="btn btn-default">Delete</button>
+                    <button type="submit" id='delete_btn' name="delete" class="btn btn-default">Delete</button>
                 </div>
 
             </form>

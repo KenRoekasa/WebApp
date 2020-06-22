@@ -4,6 +4,9 @@
     <div class='edit_container_form'>
         <div class='form'>
             <h2>New Skill</h2>
+             <a href="{% url 'cv' %}" class="close" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </a>
             <form method="POST" class="post-form">{% csrf_token %}
                 {{ form.as_p }}
                 <div class="save">
