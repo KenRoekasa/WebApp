@@ -250,27 +250,28 @@ class CVWorkExperienceSectionTest(TestCase):
         self.assertTemplateUsed(response, 'app/cv_work_experience_edit.html')
 
     def test_work_experience_edit_url_resolves_to_tech_skills_edit_view(self):
-        WorkExperience.objects.create(title='CEO', company='Google', description='Working',
+        WorkExperience.objects.create(title='CEO', company='Google', description='Working', location='Silicon Valley',
                                       start_date=timezone.now(), end_date=timezone.now(), id=1)
         found = resolve('/cv/edit/workexp/1/')
         self.assertEqual(found.func, cv_work_exp_edit)
 
     def test_cv_work_experience_edit_page_returns_correct_html(self):
-        WorkExperience.objects.create(title='CEO', company='Google', description='Working',
+        WorkExperience.objects.create(title='CEO', company='Google', description='Working', location='Silicon Valley',
                                       start_date=timezone.now(), end_date=timezone.now(),
                                       id=1)
-        response = self.client.get('/cv/edit/workexp/1/')
+        response = self.client.get('cv/edit/workexp/1/')
         self.assertTemplateUsed(response, 'app/cv_work_experience_edit.html')
 
     def test_cv_page_has_work_experience_section(self):
         response = self.client.get('/cv/')
         html = response.content.decode('utf8')
-        self.assertIn('<h1>Work Experiences</h1>', html)
+        self.assertIn('<h1>Work Experience</h1>', html)
 
     def test_displays_all_work_experience_items(self):
-        WorkExperience.objects.create(title='CEO', company='Google', description='Working',
+        WorkExperience.objects.create(title='CEO', company='Google', description='Working', location='Silicon Valley',
                                       start_date=timezone.now(), end_date=timezone.now())
         WorkExperience.objects.create(title='Senior Lead Programmer', company='Facebook', description='Testing',
+                                      location='UK',
                                       start_date=timezone.now(), end_date=timezone.now())
 
         response = self.client.get('/cv/')
@@ -280,26 +281,35 @@ class CVWorkExperienceSectionTest(TestCase):
         self.assertIn('Facebook', response.content.decode())
         self.assertIn('Working', response.content.decode())
         self.assertIn('Testing', response.content.decode())
+        self.assertIn('UK', response.content.decode())
+        self.assertIn('Silicon Valley', response.content.decode())
+        self.assertIn('June 2020-June 2020', response.content.decode())
 
     def test_cv_new_work_experience_save_POST_request(self):
         response = self.client.post('/cv/edit/workexp/new/',
                                     data={
                                         'title': 'CEO', 'company': 'Google', 'description': 'Working',
+                                        'location': 'Silicon Valley',
                                         'start_date': timezone.now(), 'end_date': timezone.now()})
 
-        latest_item = TechSkills.objects.all()[0]
+
+        latest_item = WorkExperience.objects.all()[0]
 
         self.assertEqual(latest_item.title, "CEO")
         self.assertEqual(latest_item.company, "Google")
         self.assertEqual(latest_item.description, "Working")
-        self.assertEqual(latest_item.start_date, "120")
-        self.assertEqual(latest_item.end_date, "2012")
+        # TODO add proper dates
+        self.assertEqual(latest_item.start_date, timezone.now())
+        self.assertEqual(latest_item.end_date, timezone.now())
+        self.assertEqual(latest_item.location, "Silicon Valley")
 
     def test_cv_work_experience_edit_save_POST(self):
-        WorkExperience.objects.create(title='CEO', company='Google', description='Working', start_date='', end_date='')
+        WorkExperience.objects.create(title='CEO', location='Silicon Valley',
+                                      company='Google', description='Working', start_date='', end_date='')
         response = self.client.post('/cv/edit/workexp/1/',
                                     data={
-                                        'title': 'Owner', 'company': 'Google', 'description': 'Working',
+                                        'title': 'Owner', 'company': 'Google', 'location': 'Silicon Valley',
+                                        'description': 'Working',
                                         'start_date': timezone.now(), 'end_date': timezone.now()})
 
         latest_item = TechSkills.objects.all()[0]
