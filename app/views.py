@@ -74,7 +74,11 @@ def cv_education_new(request):
 def cv_education_edit(request, pk):
     post = get_object_or_404(Education, pk=pk)
     educations = Education.objects.order_by('-end_year')
-    if request.method == "POST":
+    if request.method == "POST" and 'delete' in request.POST:
+        instance = post
+        instance.delete()
+        return redirect('cv')
+    elif request.method == "POST":
         form = EducationForm(request.POST, instance=post)
         if form.is_valid():
             post = form.save(commit=False)
