@@ -566,3 +566,76 @@ class CVEditTest(unittest.TestCase):
 
         if __name__ == '__main__':
             unittest.main(warnings='ignore')
+
+    def test080_edit_cv_academic_project(self):
+        # They login
+        self.browser.get('http://127.0.0.1:8000/admin')
+        username_box = self.browser.find_element_by_id('id_username')
+        password_box = self.browser.find_element_by_id('id_password')
+        username_box.send_keys('kenny')
+        password_box.send_keys('adminadmin123')
+        password_box.send_keys(Keys.ENTER)
+        time.sleep(1)
+
+        # User opens site add a new to their education
+        self.browser.get('http://127.0.0.1:8000/cv')
+
+        time.sleep(1)
+
+        # Notices an add button
+        edit_button = self.browser.find_element_by_id('academic_projects_edit_button')
+        # Presses the add button
+        edit_button.click()
+
+        time.sleep(1)
+        # Displays a form overlaying the cv page it has been greyed out in the background
+
+        # User enters School
+        input_title_box = self.browser.find_element_by_id('id_title')
+        self.assertEqual("Flappy Bird", input_title_box.get_attribute('value'))
+
+        # User enters the Start and End date
+        input_start_date = self.browser.find_element_by_id('id_start_date')
+        input_end_date = self.browser.find_element_by_id('id_end_date')
+        input_start_date
+        # ONLY works on chrome
+        self.assertEqual("2019-02-05", input_start_date.get_attribute('value'))
+
+        self.assertEqual("2019-05-20",
+                         input_end_date.get_attribute('value'))
+
+        # Enters Description
+        input_description_box = self.browser.find_element_by_id('id_description')
+        input_description_box.clear()
+        input_description_box.send_keys("I change to this")
+
+        # Press saves
+        save_button = self.browser.find_element_by_class_name('btn')
+        save_button.click()
+        time.sleep(1)
+
+        # Redirects to main cv page
+        # Sees the changes have been affected to the page
+
+        title_texts = self.browser.find_elements_by_class_name('project_title')
+
+        date_text = self.browser.find_elements_by_class_name('project_date')
+
+        description_text = self.browser.find_elements_by_tag_name('p')
+
+        self.assertTrue(
+            any('Flappy Bird' in text.text for text in title_texts)
+        )
+
+        self.assertTrue(
+            any(
+                text.text == 'I change to this'
+                for text in description_text)
+            , description_text)
+
+        self.assertTrue(
+            any(date.text == 'February 2019 - May 2019' for date in date_text)
+        )
+
+        if __name__ == '__main__':
+            unittest.main(warnings='ignore')

@@ -88,6 +88,11 @@
         <div><a href="{% url 'cv_project_new' %}" id='academic_projects_add_button'><i
                 class="fas fa-plus-circle"></i></a></div>
         {% for project in projects %}
+        <div>
+            <a href="{% url 'cv_project_edit' pk=project.pk %}" id='academic_projects_edit_button'><i
+                    class="fas fa-edit"></i></a>
+        </div>
+
         <div class="cv_project_wrapper">
             <div class="left_right">
                 <h3 class="project_title" id="left">{{ project.title }}</h3>
