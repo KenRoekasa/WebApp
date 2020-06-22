@@ -130,7 +130,7 @@ def cv_work_exp_new(request):
 
 
 def cv_work_exp_edit(request, pk):
-    post = get_object_or_404(TechSkills, pk=pk)
+    post = get_object_or_404(WorkExperience, pk=pk)
     exp = WorkExperience.objects.order_by('-end_date')
     if request.method == "POST" and 'delete' in request.POST:
         instance = post

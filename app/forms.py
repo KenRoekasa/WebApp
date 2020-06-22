@@ -35,6 +35,6 @@ class WorkExperienceForm(forms.ModelForm):
         model = WorkExperience
         fields = ('title', 'company', 'location', 'start_date', 'end_date', 'description')
         widgets = {
-            'start_date': forms.DateInput(attrs={'type': 'date'}),
-            'end_date': forms.DateInput(attrs={'type': 'date'}),
+            'start_date': forms.DateInput(format='%Y-%m-%d',attrs={'type': 'date'}),
+            'end_date': forms.DateInput(format='%Y-%m-%d',attrs={'type': 'date'}),
         }

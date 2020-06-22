@@ -442,9 +442,9 @@ class CVEditTest(unittest.TestCase):
         input_end_date = self.browser.find_element_by_id('id_end_date')
         input_start_date
         # ONLY works on chrome
-        self.assertEqual("20/07/2017", input_start_date('value'))
+        self.assertEqual("2017-07-20", input_start_date.get_attribute('value'))
 
-        self.assertEqual("06/03/2020", input_end_date('value'))
+        self.assertEqual("2020-03-06", input_end_date.get_attribute('value'))
 
         # Enters Description
         input_description_box = self.browser.find_element_by_id('id_description')

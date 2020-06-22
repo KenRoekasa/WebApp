@@ -298,7 +298,6 @@ class CVWorkExperienceSectionTest(TestCase):
         self.assertEqual(latest_item.title, "CEO")
         self.assertEqual(latest_item.company, "Google")
         self.assertEqual(latest_item.description, "Working")
-        # TODO add proper dates
         self.assertEqual(latest_item.start_date, timezone.now())
         self.assertEqual(latest_item.end_date, timezone.now())
         self.assertEqual(latest_item.location, "Silicon Valley")
