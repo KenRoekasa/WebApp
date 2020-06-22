@@ -62,10 +62,12 @@
         </div>
         {% endif %}
         {% for work in work_experience %}
+        {% if user.is_authenticated %}
         <div>
             <a href="{% url 'cv_work_experience_edit' pk=work.pk %}" id='work_experience_edit_button'><i
                     class="fas fa-edit"></i></a>
         </div>
+        {% endif %}
         <div class="left_right">
             <h3 id="left" class="company">{{ work.company }}</h3>
             <h3 id="right" class="location">{{ work.location }}</h3>
@@ -85,14 +87,18 @@
 
     <div class="cv_section">
         <h1>Academic Projects</h1>
+        {% if user.is_authenticated %}
         <div><a href="{% url 'cv_project_new' %}" id='academic_projects_add_button'><i
                 class="fas fa-plus-circle"></i></a></div>
+        {% endif %}
         {% for project in projects %}
+        {% if user.is_authenticated %}
         <div>
+
             <a href="{% url 'cv_project_edit' pk=project.pk %}" id='academic_projects_edit_button'><i
                     class="fas fa-edit"></i></a>
         </div>
-
+        {% endif %}
         <div class="cv_project_wrapper">
             <div class="left_right">
                 <h3 class="project_title" id="left">{{ project.title }}</h3>
