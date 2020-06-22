@@ -1,5 +1,6 @@
 import time
 
+from django.forms import DateInput
 from selenium import webdriver
 import unittest
 
@@ -11,7 +12,8 @@ from selenium.webdriver.support.ui import Select
 class CVEditTest(unittest.TestCase):
 
     def setUp(self):
-        self.browser = webdriver.Firefox()
+        self.browser = webdriver.Chrome("D:\Desktop\chromedriver.exe")
+        # self.browser = webdriver.Firefox()
 
     def tearDown(self):
         self.browser.quit()
@@ -343,11 +345,15 @@ class CVEditTest(unittest.TestCase):
         input_location_box.send_keys('CEO')
 
         # User enters the Start and End date
-        input_start_year = self.browser.find_element_by_id('id_start_date')
-        input_end_year = self.browser.find_element_by_id('id_end_date')
+        input_start_date = self.browser.find_element_by_id('id_start_date')
+        input_end_date = self.browser.find_element_by_id('id_end_date')
+        input_start_date.click()
+        # ONLY works on chrome
+        input_start_date.send_keys("20072017")
+        # input_start_date.send_keys("20-Aug-1985")
 
-        input_start_year.select_by_visible_text("2015")
-        input_end_year.select_by_visible_text("2021")
+        input_end_date.click()
+        input_end_date.send_keys("06032020")
 
         # Enters Description
         input_description_box = self.browser.find_element_by_id('id_description')
