@@ -51,3 +51,18 @@ class TechSkills(models.Model):
 
     def __str__(self):
         return self.school
+
+
+class WorkExperience(models.Model):
+    title = models.CharField(max_length=255)
+    company = models.CharField(max_length=255)
+    description = models.TextField()
+    location = models.CharField(max_length=255)
+    start_date = models.DateTimeField(default=timezone.now)
+    end_date = models.DateTimeField(default=timezone.now)
+
+    def start_date_mY(self):
+        return self.start_date.strftime('%B %Y')
+
+    def end_date_mY(self):
+        return self.end_date.strftime('%B %Y')

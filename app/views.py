@@ -2,9 +2,9 @@ from django.db.models.functions import Coalesce
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 
-from .models import Project, Blog, Education, TechSkills
+from .models import Project, Blog, Education, TechSkills, WorkExperience
 
-from .forms import BlogForm, EducationForm, TechSkillsForm
+from .forms import BlogForm, EducationForm, TechSkillsForm, WorkExperienceForm
 
 from django.shortcuts import redirect
 
@@ -31,7 +31,8 @@ def blog_list(request):
 def cv(request):
     educations = Education.objects.order_by('-end_year')
     skills = TechSkills.objects.order_by('id')
-    return render(request, 'app/cv.html', {'educations': educations, 'skills': skills})
+    workexp = WorkExperience.objects.order_by('-end_date')
+    return render(request, 'app/cv.html', {'educations': educations, 'skills': skills, 'work_experience': workexp})
 
 
 def blog_detail(request, pk):
@@ -86,7 +87,6 @@ def cv_education_edit(request, pk):
 
 
 def cv_tech_skills_new(request):
-    skills = TechSkills.objects.order_by('id')
     if request.method == "POST":
         form = TechSkillsForm(request.POST)
         if form.is_valid():
@@ -115,3 +115,33 @@ def cv_tech_skills_edit(request, pk):
     else:
         form = TechSkillsForm(instance=post)
     return render(request, 'app/cv_tech_skills_edit.html', {'form': form, 'skills': skills})
+
+
+def cv_work_exp_new(request):
+    if request.method == "POST":
+        form = WorkExperienceForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.save()
+            return redirect('cv')
+    else:
+        form = WorkExperienceForm()
+    return render(request, 'app/cv_work_experience_edit.html', {'form': form})
+
+
+def cv_work_exp_edit(request, pk):
+    post = get_object_or_404(TechSkills, pk=pk)
+    exp = WorkExperience.objects.order_by('-end_date')
+    if request.method == "POST" and 'delete' in request.POST:
+        instance = post
+        instance.delete()
+        return redirect('cv')
+    elif request.method == "POST":
+        form = WorkExperienceForm(request.POST, instance=post)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.save()
+            return redirect('cv')
+    else:
+        form = WorkExperienceForm(instance=post)
+    return render(request, 'app/cv_work_experience_edit.html', {'form': form})

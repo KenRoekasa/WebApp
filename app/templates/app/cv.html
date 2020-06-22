@@ -17,7 +17,7 @@
             </div>
             <div class="left_right">
                 <h4 class="cv_subheader field_of_study" id="left">{{ education.field_of_study }}</h4>
-                <h4 class="cv_subheader year" id="right">{{education.start_year}}-{{education.end_year}}</h4>
+                <h4 class="cv_subheader year" id="right">{{ education.start_year }}-{{ education.end_year }}</h4>
             </div>
             <div>
                 <p>
@@ -54,35 +54,31 @@
     </div>
     <div sec class="cv_section">
         <h1>Work Experience</h1>
+        {% if user.is_authenticated %}
+        <div>
+            <a href="{% url 'cv_work_experience_new' %}" id='work_experience_add_button'><i
+                    class="fas fa-plus-circle"></i></a>
+
+        </div>
+        {% endif %}
+        {% for work in work_experience %}
         <div class="left_right">
-            <h3 id="left">Suda Thai Cafe & Restaurant</h3>
-            <h3 id="right">Fitzrovia, London</h3>
+            <h3 id="left" class="company">{{ work.company }}</h3>
+            <h3 id="right" class="location">{{ work.location }}</h3>
         </div>
         <div class="left_right">
-            <h4 class="cv_subheader" id="left">Waiter</h4>
-            <h4 class="cv_subheader" id="right">July 2018 - September 2018</h4>
+            <h4 class="cv_subheader title" id="left">{{ work.title }}</h4>
+            <h4 class="cv_subheader date" id="right">{{ work.start_date_mY }} - {{ work.end_date_mY }} </h4>
         </div>
-        <ul>
-            <li><span class="bold">Customer Service</span> - Listened to customers needs and complaints and ensured the
-                customers
-                needs are met
-                or their complaints are heard and fixed.
-            </li>
-            <li><span class="bold">Directing of orders and food</span> - To know what dishes go to what table and
-                ensured that the
-                order is
-                correct
-                and is up to standard.
-            </li>
-            <li><span class="bold"> Pantry work</span> - Managed orders, serving food. and drinks I had the essential
-                items to
-                organise in my
-                station,
-                to distribute in a quick and efficient manner.
-            </li>
-        </ul>
+        <div>
+            <p>
+                {{ work.description }}
+            </p>
+        </div>
+        {% endfor %}
         <hr class="solid">
-    </div sec>
+    </div>
+
     <div class="cv_section">
         <h2>Academic Projects</h2>
         <div class="cv_project_wrapper">
