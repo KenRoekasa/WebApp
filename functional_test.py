@@ -535,7 +535,7 @@ class CVEditTest(unittest.TestCase):
         # Enters Description
         input_description_box = self.browser.find_element_by_id('id_description')
         input_description_box.send_keys(
-            'I did this and this and this \n also did this \n this aswell')
+            'I did this and this and this also did this this aswell')
 
         # Press saves
         save_button = self.browser.find_element_by_class_name('btn')
@@ -556,7 +556,7 @@ class CVEditTest(unittest.TestCase):
 
         self.assertTrue(
             any(
-                text.text == 'I did this and this and this \n also did this \n this aswell'
+                text.text == 'I did this and this and this also did this this aswell'
                 for text in description_text)
             , description_text)
 

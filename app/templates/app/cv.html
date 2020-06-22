@@ -90,8 +90,8 @@
         {% for project in projects %}
         <div class="cv_project_wrapper">
             <div class="left_right">
-                <h3 id="left">{{ project.title }}</h3>
-                <h3 id="right">{{ project.start_date_mY }} - {{ project.end_date_mY }}</h3>
+                <h3 class="project_title" id="left">{{ project.title }}</h3>
+                <h3 class="project_date" id="right">{{ project.start_date_mY }} - {{ project.end_date_mY }}</h3>
             </div>
             <div>
                 <p>
