@@ -5,6 +5,7 @@ from selenium import webdriver
 import unittest
 
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 
@@ -12,7 +13,11 @@ from selenium.webdriver.support.ui import Select
 class CVEditTest(unittest.TestCase):
 
     def setUp(self):
-        self.browser = webdriver.Chrome("D:\Desktop\chromedriver.exe")
+        chrome_options = Options()
+        chrome_options.add_argument("--window-size=1920,1080")
+        self.browser = webdriver.Chrome("D:\Desktop\chromedriver.exe",
+                                        options=chrome_options)
+
         # self.browser = webdriver.Firefox()
 
     def tearDown(self):
@@ -106,7 +111,7 @@ class CVEditTest(unittest.TestCase):
         field_of_study_text = self.browser.find_elements_by_class_name('field_of_study')
 
         self.assertTrue(
-            any('University of Birmingham' in text.text for text in school_texts)
+            any(text.text == 'University of Birmingham' for text in school_texts)
         )
 
         self.assertTrue(
@@ -128,7 +133,7 @@ class CVEditTest(unittest.TestCase):
             any(text.text == 'Edgbaston, Birmingham' for text in location_text)
         )
 
-    def test020_edit_cv_education(self):
+    def test020_edit_delete_cv_education(self):
         # They login
         self.browser.get('http://127.0.0.1:8000/admin')
         username_box = self.browser.find_element_by_id('id_username')
@@ -193,6 +198,33 @@ class CVEditTest(unittest.TestCase):
         self.assertTrue(
             any(text.text == 'Maths' for text in field_of_study_text)
         )
+
+        # Clicks edit button again
+        edit_button = self.browser.find_elements_by_id('edit_education_btn')[0]
+        edit_button.click()
+
+        delete_button = self.browser.find_element_by_id('delete_btn')
+        delete_button.click()
+        time.sleep(1)
+
+        # See changes
+        # Redirects to main cv page
+        # Sees the changes have been affected to the page
+
+        school_texts = self.browser.find_elements_by_class_name('school')
+        year_text = self.browser.find_elements_by_class_name('year')
+
+        location_text = self.browser.find_elements_by_class_name('location')
+
+        description_text = self.browser.find_elements_by_tag_name('p')
+
+        field_of_study_text = self.browser.find_elements_by_class_name('field_of_study')
+
+        self.assertEqual([], school_texts)
+        self.assertEqual([], year_text)
+        self.assertEqual([], field_of_study_text)
+        self.assertEqual([], location_text)
+        self.assertEqual([], description_text)
 
     def test030_add_new_tech_skills(self):
         # They login
@@ -270,32 +302,13 @@ class CVEditTest(unittest.TestCase):
 
         self.assertTrue(any('Java' in item.text for item in techskills_list))
 
-    def test050_delete_new_tech_skills(self):
-        # They login
-        self.browser.get('http://127.0.0.1:8000/admin')
-        username_box = self.browser.find_element_by_id('id_username')
-        password_box = self.browser.find_element_by_id('id_password')
-        username_box.send_keys('kenny')
-        password_box.send_keys('adminadmin123')
-        password_box.send_keys(Keys.ENTER)
-        time.sleep(1)
-        # Goes back to cv page
-        self.browser.get('http://127.0.0.1:8000/cv/')
-
-        # Notices Edit button next to a Tech Skills
         edit_button = self.browser.find_elements_by_id('edit_tech_skills_btn')[0]
 
-        # Clicks edit button
+        # clicks edit button again
         edit_button.click()
         time.sleep(1)
 
-        # Sees form is prefilled
-        skills_textbox = self.browser.find_element_by_id('id_skill')
-        # Focuses on text box that is filled with django
-        self.assertEqual('Java', skills_textbox.get_attribute('value'))
-
-        # Press save button
-        # Save form
+        # Press delete button
         delete_button = self.browser.find_element_by_id('delete_btn')
         delete_button.click()
         time.sleep(1)
@@ -377,7 +390,7 @@ class CVEditTest(unittest.TestCase):
         description_text = self.browser.find_elements_by_tag_name('p')
 
         self.assertTrue(
-            any('CEO' in text.text for text in title_texts)
+            any(text.text == 'CEO' for text in title_texts)
         )
 
         self.assertTrue(
@@ -397,10 +410,7 @@ class CVEditTest(unittest.TestCase):
             any(date.text == 'July 2017 - March 2020' for date in date_text)
         )
 
-        if __name__ == '__main__':
-            unittest.main(warnings='ignore')
-
-    def test070_edit_cv_work_experience(self):
+    def test070_edit_delete_cv_work_experience(self):
         # They login
         self.browser.get('http://127.0.0.1:8000/admin')
         username_box = self.browser.find_element_by_id('id_username')
@@ -415,27 +425,27 @@ class CVEditTest(unittest.TestCase):
 
         time.sleep(1)
 
-        # Notices an add button
-        add_button = self.browser.find_element_by_id('work_experience_edit_button')
-        # Presses the add button
-        add_button.click()
+        # Notices an edit button
+        edit_button = self.browser.find_element_by_id('work_experience_edit_button')
+        # Presses the edit button
+        edit_button.click()
 
         time.sleep(1)
         # Displays a form overlaying the cv page it has been greyed out in the background
 
-        # User enters School
-        input_school_box = self.browser.find_element_by_id('id_company')
-        self.assertEqual("Google", input_school_box.get_attribute('value'))
+        # User enters company
+        input_company_box = self.browser.find_element_by_id('id_company')
+        self.assertEqual("Google", input_company_box.get_attribute('value'))
 
         # User enters location
         input_location_box = self.browser.find_element_by_id('id_location')
 
         self.assertEqual('Silicon Valley', input_location_box.get_attribute('value'))
 
-        # User enters location
-        input_location_box = self.browser.find_element_by_id('id_title')
-        input_location_box.clear
-        input_location_box.send_keys('Owner')
+        # User enters title
+        input_title_box = self.browser.find_element_by_id('id_title')
+        input_title_box.clear()
+        input_title_box.send_keys('Owner')
 
         # User enters the Start and End date
         input_start_date = self.browser.find_element_by_id('id_start_date')
@@ -468,7 +478,7 @@ class CVEditTest(unittest.TestCase):
         description_text = self.browser.find_elements_by_tag_name('p')
 
         self.assertTrue(
-            any('Owner' in text.text for text in title_texts)
+            any(text.text == 'Owner' for text in title_texts)
         )
 
         self.assertTrue(
@@ -488,8 +498,29 @@ class CVEditTest(unittest.TestCase):
             any(date.text == 'July 2017 - March 2020' for date in date_text)
         )
 
-        if __name__ == '__main__':
-            unittest.main(warnings='ignore')
+        # clicks edit button again
+        edit_button = self.browser.find_element_by_id('work_experience_edit_button')
+        edit_button.click()
+        time.sleep(1)
+
+        # Press delete button
+        delete_button = self.browser.find_element_by_id('delete_btn')
+        delete_button.click()
+        time.sleep(1)
+
+        title_texts = self.browser.find_elements_by_class_name('title')
+        company_text = self.browser.find_elements_by_class_name('company')
+
+        location_text = self.browser.find_elements_by_class_name('location')
+        date_text = self.browser.find_elements_by_class_name('date')
+
+        description_text = self.browser.find_elements_by_tag_name('p')
+
+        self.assertEqual([], title_texts)
+        self.assertEqual([], company_text)
+        self.assertEqual([], date_text)
+        self.assertEqual([], location_text)
+        self.assertEqual([], description_text)
 
     def test080_add_new_cv_academic_project(self):
         # They login
@@ -555,19 +586,21 @@ class CVEditTest(unittest.TestCase):
         )
 
         self.assertTrue(
-            any(
-                text.text == 'I did this and this and this also did this this aswell'
-                for text in description_text)
-            , description_text)
+            any('I did this and this and this' in text.text for text in
+                description_text))
+        self.assertTrue(
+            any('also did this' in text.text for text in
+                description_text))
+        self.assertTrue(
+            any('this aswell' in text.text for text in
+                description_text))
 
         self.assertTrue(
             any(date.text == 'February 2019 - May 2019' for date in date_texts)
+
         )
 
-        if __name__ == '__main__':
-            unittest.main(warnings='ignore')
-
-    def test080_edit_cv_academic_project(self):
+    def test090_edit_delete_cv_academic_project(self):
         # They login
         self.browser.get('http://127.0.0.1:8000/admin')
         username_box = self.browser.find_element_by_id('id_username')
@@ -631,11 +664,32 @@ class CVEditTest(unittest.TestCase):
             any(
                 text.text == 'I change to this'
                 for text in description_text)
-            , description_text)
+        )
 
         self.assertTrue(
             any(date.text == 'February 2019 - May 2019' for date in date_text)
         )
 
-        if __name__ == '__main__':
-            unittest.main(warnings='ignore')
+        # clicks edit button again
+        edit_button = self.browser.find_element_by_id('academic_projects_edit_button')
+        edit_button.click()
+        time.sleep(1)
+
+        # Press delete button
+        delete_button = self.browser.find_element_by_id('delete_btn')
+        delete_button.click()
+        time.sleep(1)
+
+        title_texts = self.browser.find_elements_by_class_name('project_title')
+        date_texts = self.browser.find_elements_by_class_name('project_date')
+
+        description_text = self.browser.find_elements_by_tag_name('p')
+
+        self.assertEqual([], title_texts)
+        self.assertEqual([], date_texts)
+
+        self.assertEqual([], description_text)
+
+
+if __name__ == '__main__':
+    unittest.main(warnings='ignore')
