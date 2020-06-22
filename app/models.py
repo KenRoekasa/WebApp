@@ -66,3 +66,19 @@ class WorkExperience(models.Model):
 
     def end_date_mY(self):
         return self.end_date.strftime('%B %Y')
+
+
+class AcademicProjects(models.Model):
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    start_date = models.DateTimeField(default=timezone.now)
+    end_date = models.DateTimeField(default=timezone.now)
+
+    def start_date_mY(self):
+        return self.start_date.strftime('%B %Y')
+
+    def end_date_mY(self):
+        return self.end_date.strftime('%B %Y')
+
+    def __str__(self):
+        return self.title

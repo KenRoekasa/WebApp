@@ -1,0 +1,21 @@
+{% extends 'app/cv.html' %}
+{% block overlay %}
+<div class='edit_overlay'>
+    <div class='edit_container_form'>
+        <div class='form'>
+            <h2>New Academic Projects</h2>
+            <form method="POST" class="post-form">{% csrf_token %}
+                {{ form.as_p }}
+                <div class="save">
+                    <button type="submit" class="btn btn-default">Save</button>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}
+
+

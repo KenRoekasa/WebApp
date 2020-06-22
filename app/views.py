@@ -2,9 +2,9 @@ from django.db.models.functions import Coalesce
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 
-from .models import Project, Blog, Education, TechSkills, WorkExperience
+from .models import Project, Blog, Education, TechSkills, WorkExperience, AcademicProjects
 
-from .forms import BlogForm, EducationForm, TechSkillsForm, WorkExperienceForm
+from .forms import BlogForm, EducationForm, TechSkillsForm, WorkExperienceForm, AcademicProjectForm
 
 from django.shortcuts import redirect
 
@@ -32,7 +32,9 @@ def cv(request):
     educations = Education.objects.order_by('-end_year')
     skills = TechSkills.objects.order_by('id')
     workexp = WorkExperience.objects.order_by('-end_date')
-    return render(request, 'app/cv.html', {'educations': educations, 'skills': skills, 'work_experience': workexp})
+    projects = AcademicProjects.objects.order_by('-end_date')
+    return render(request, 'app/cv.html',
+                  {'educations': educations, 'skills': skills, 'work_experience': workexp, 'projects': projects})
 
 
 def blog_detail(request, pk):
@@ -145,3 +147,32 @@ def cv_work_exp_edit(request, pk):
     else:
         form = WorkExperienceForm(instance=post)
     return render(request, 'app/cv_work_experience_edit.html', {'form': form})
+
+
+def cv_projects_new(request):
+    if request.method == "POST":
+        form = AcademicProjectForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.save()
+            return redirect('cv')
+    else:
+        form = AcademicProjectForm()
+    return render(request, 'app/cv_projects_edit.html', {'form': form})
+
+
+def cv_projects_edit(request, pk):
+    post = get_object_or_404(AcademicProjects, pk=pk)
+    if request.method == "POST" and 'delete' in request.POST:
+        instance = post
+        instance.delete()
+        return redirect('cv')
+    elif request.method == "POST":
+        form = AcademicProjectForm(request.POST, instance=post)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.save()
+            return redirect('cv')
+    else:
+        form = AcademicProjectForm(instance=post)
+    return render(request, 'app/cv_projects_edit.html', {'form': form})
