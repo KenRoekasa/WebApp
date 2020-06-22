@@ -94,9 +94,8 @@
                 <h3 class="project_date" id="right">{{ project.start_date_mY }} - {{ project.end_date_mY }}</h3>
             </div>
             <div>
-                <p>
-                    {{ project.description }}
-                </p>
+                {{ project.description | linebreaks }}
+
             </div>
         </div>
         {% endfor %}

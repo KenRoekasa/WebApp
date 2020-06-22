@@ -535,7 +535,7 @@ class CVEditTest(unittest.TestCase):
         # Enters Description
         input_description_box = self.browser.find_element_by_id('id_description')
         input_description_box.send_keys(
-            'I did this and this and this also did this this aswell')
+            'I did this and this and this \n also did this \n this aswell')
 
         # Press saves
         save_button = self.browser.find_element_by_class_name('btn')
