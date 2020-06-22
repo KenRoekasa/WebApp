@@ -7,8 +7,8 @@ from django.urls import resolve
 from django.utils import timezone
 
 from .views import home, cv, project_list, blog_list, cv_education_new, cv_education_edit, cv_tech_skills_edit, \
-    cv_tech_skills_new, cv_work_exp_edit, cv_work_exp_new
-from .models import Blog, Project, Education, TechSkills, WorkExperience
+    cv_tech_skills_new, cv_work_exp_edit, cv_work_exp_new, cv_projects_new, cv_projects_edit
+from .models import Blog, Project, Education, TechSkills, WorkExperience,AcademicProjects
 
 
 class HomePageTest(TestCase):
