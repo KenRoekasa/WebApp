@@ -490,3 +490,79 @@ class CVEditTest(unittest.TestCase):
 
         if __name__ == '__main__':
             unittest.main(warnings='ignore')
+
+    def test080_add_new_cv_academic_project(self):
+        # They login
+        self.browser.get('http://127.0.0.1:8000/admin')
+        username_box = self.browser.find_element_by_id('id_username')
+        password_box = self.browser.find_element_by_id('id_password')
+        username_box.send_keys('kenny')
+        password_box.send_keys('adminadmin123')
+        password_box.send_keys(Keys.ENTER)
+        time.sleep(1)
+
+        # User opens site add a new to their education
+        self.browser.get('http://127.0.0.1:8000/cv')
+
+        time.sleep(1)
+
+        # Locates the Work Experience section
+        headers = self.browser.find_elements_by_tag_name('h1')
+        self.assertTrue(any('Academic Projects' in h.text for h in headers))
+
+        # Notices an add button
+        add_button = self.browser.find_element_by_id('academic_projects_add_button')
+        # Presses the add button
+        add_button.click()
+
+        time.sleep(1)
+        # Displays a form overlaying the cv page it has been greyed out in the background
+
+        # User enters Title
+        input_title = self.browser.find_element_by_id('id_title')
+        input_title.send_keys("Flappy Bird")
+
+        # User enters the Start and End date
+        input_start_date = self.browser.find_element_by_id('id_start_date')
+        input_end_date = self.browser.find_element_by_id('id_end_date')
+        input_start_date.click()
+        # ONLY works on chrome
+        input_start_date.send_keys("05022019")
+
+        input_end_date.click()
+        input_end_date.send_keys("20052019")
+
+        # Enters Description
+        input_description_box = self.browser.find_element_by_id('id_description')
+        input_description_box.send_keys(
+            'I did this and this and this \n also did this \n this aswell')
+
+        # Press saves
+        save_button = self.browser.find_element_by_class_name('btn')
+        save_button.click()
+        time.sleep(1)
+
+        # Redirects to main cv page
+        # Sees the changes have been affected to the page
+
+        title_texts = self.browser.find_elements_by_class_name('project_title')
+        date_texts = self.browser.find_elements_by_class_name('project_date')
+
+        description_text = self.browser.find_elements_by_tag_name('p')
+
+        self.assertTrue(
+            any('Flappy Bird' in text.text for text in title_texts)
+        )
+
+        self.assertTrue(
+            any(
+                text.text == 'I did this and this and this \n also did this \n this aswell'
+                for text in description_text)
+            , description_text)
+
+        self.assertTrue(
+            any(date.text == 'February 2019 - May 2019' for date in date_texts)
+        )
+
+        if __name__ == '__main__':
+            unittest.main(warnings='ignore')
