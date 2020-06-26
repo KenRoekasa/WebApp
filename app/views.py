@@ -56,6 +56,25 @@ def blog_new(request):
     return render(request, 'app/blog_new.html', {'form': form})
 
 
+def blog_edit(request, pk):
+    post = get_object_or_404(Blog, pk=pk)
+    if request.method == "POST" and 'delete' in request.POST:
+        instance = post
+        instance.delete()
+        return redirect('blog')
+    elif request.method == "POST":
+        form = BlogForm(request.POST, instance=post)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.published_date = timezone.now()
+            post.save()
+            return redirect('blog_detail', pk=post.pk)
+    else:
+        form = BlogForm(instance=post)
+    return render(request, 'app/blog_new.html', {'form': form})
+
+
 def cv_education_new(request):
     educations = Education.objects.order_by('-end_year')
     if request.method == "POST":
