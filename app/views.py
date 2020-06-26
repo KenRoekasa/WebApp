@@ -1,6 +1,7 @@
 from django.db.models.functions import Coalesce
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
 
 from .models import Project, Blog, Education, TechSkills, WorkExperience, AcademicProjects
 
@@ -42,6 +43,7 @@ def blog_detail(request, pk):
     return render(request, 'app/blog_detail.html', {'blog': blog})
 
 
+@login_required
 def blog_new(request):
     if request.method == "POST":
         form = BlogForm(request.POST)
@@ -56,6 +58,7 @@ def blog_new(request):
     return render(request, 'app/blog_new.html', {'form': form})
 
 
+@login_required
 def blog_edit(request, pk):
     post = get_object_or_404(Blog, pk=pk)
     if request.method == "POST" and 'delete' in request.POST:
@@ -75,6 +78,7 @@ def blog_edit(request, pk):
     return render(request, 'app/blog_new.html', {'form': form})
 
 
+@login_required
 def cv_education_new(request):
     educations = Education.objects.order_by('-end_year')
     if request.method == "POST":
@@ -90,6 +94,7 @@ def cv_education_new(request):
     return render(request, 'app/cv_education_edit.html', {'form': form, 'educations': educations})
 
 
+@login_required
 def cv_education_edit(request, pk):
     post = get_object_or_404(Education, pk=pk)
     educations = Education.objects.order_by('-end_year')
@@ -111,6 +116,7 @@ def cv_education_edit(request, pk):
     return render(request, 'app/cv_education_edit.html', {'form': form, 'educations': educations})
 
 
+@login_required
 def cv_tech_skills_new(request):
     if request.method == "POST":
         form = TechSkillsForm(request.POST)
@@ -123,6 +129,7 @@ def cv_tech_skills_new(request):
     return render(request, 'app/cv_tech_skills_edit.html', {'form': form})
 
 
+@login_required
 def cv_tech_skills_edit(request, pk):
     post = get_object_or_404(TechSkills, pk=pk)
     skills = TechSkills.objects.order_by('id')
@@ -142,6 +149,7 @@ def cv_tech_skills_edit(request, pk):
     return render(request, 'app/cv_tech_skills_edit.html', {'form': form, 'skills': skills})
 
 
+@login_required
 def cv_work_exp_new(request):
     if request.method == "POST":
         form = WorkExperienceForm(request.POST)
@@ -154,6 +162,7 @@ def cv_work_exp_new(request):
     return render(request, 'app/cv_work_experience_edit.html', {'form': form})
 
 
+@login_required
 def cv_work_exp_edit(request, pk):
     post = get_object_or_404(WorkExperience, pk=pk)
     exp = WorkExperience.objects.order_by('-end_date')
@@ -172,6 +181,7 @@ def cv_work_exp_edit(request, pk):
     return render(request, 'app/cv_work_experience_edit.html', {'form': form})
 
 
+@login_required
 def cv_projects_new(request):
     if request.method == "POST":
         form = AcademicProjectForm(request.POST)
@@ -184,6 +194,7 @@ def cv_projects_new(request):
     return render(request, 'app/cv_projects_edit.html', {'form': form})
 
 
+@login_required
 def cv_projects_edit(request, pk):
     post = get_object_or_404(AcademicProjects, pk=pk)
     if request.method == "POST" and 'delete' in request.POST:
