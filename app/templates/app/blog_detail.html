@@ -13,7 +13,7 @@
 </div>
 {% if user.is_authenticated %}
 <div>
-    <a href="{% url 'blog_edit' pk=blog.pk %}" class="add_overlay"><i class="fas fa-plus-circle"></i></a>
+    <a href="{% url 'blog_edit' pk=blog.pk %}" class="add_overlay"><i class="fas fa-edit"></i></a>
 </div>
 {% endif %}
 {% endblock %}
