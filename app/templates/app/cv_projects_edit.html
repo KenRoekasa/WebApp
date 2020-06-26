@@ -3,17 +3,17 @@
 <div class='edit_overlay'>
     <div class='edit_container_form'>
         <div class='form'>
-            <h2>New Academic Projects</h2>
-             <a href="{% url 'cv' %}" class="close" aria-label="Close">
+            <h2>New Academic Projects <span> <a href="{% url 'cv' %}" class="close" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
-            </a>
+            </a></span></h2>
+
             <form method="POST" class="post-form">{% csrf_token %}
                 {{ form.as_p }}
-                <div class="save">
+                <div class="form_button">
                     <button type="submit" class="btn btn-default">Save</button>
-
+                    <button type="submit" id='delete_btn' name="delete" class="btn btn-default">Delete</button>
                 </div>
-                 <button type="submit" id='delete_btn' name="delete" class="btn btn-default">Delete</button>
+
 
             </form>
         </div>

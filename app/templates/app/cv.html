@@ -2,17 +2,24 @@
 {% block content %}
 <div class="content container">
     <div class="cv_section">
-        <h1>Education</h1>
-        {% if user.is_authenticated %}
-        <div>
-            <a href="{% url 'cv_education_new' %}" id='education_add_button'><i class="fas fa-plus-circle"></i></a>
+        <div class="cv_header">
+            <div>
+                <h1>Education {% if user.is_authenticated %}<span>
+                <a href="{% url 'cv_education_new' %}" class='cv_button' id='education_add_button'><i
+                        class="fas fa-plus-circle"></i></a>
+            </span>
+                    {% endif %}</h1>
+            </div>
         </div>
-        {% endif %}
-
         {% for education in educations %}
         <div class="school_wrapper">
             <div class="left_right">
-                <h3 class="school" id="left">{{ education.school }}</h3>
+                <h3 class="school" id="left">{{ education.school }} <span>
+            {% if user.is_authenticated %}
+            <a href="{% url 'cv_education_edit' pk=education.pk %}" class='cv_button' id='edit_education_btn'><i
+                    class="fas fa-edit"></i></a>
+            {% endif %}
+           </span></h3>
                 <h3 class="location" id="right">{{ education.location }}</h3>
             </div>
             <div class="left_right">
@@ -24,28 +31,26 @@
                     {{ education.description }}
                 </p>
             </div>
-            {% if user.is_authenticated %}
-            <div><a href="{% url 'cv_education_edit' pk=education.pk %}" id='edit_education_btn'><i
-                    class="fas fa-edit"></i></a></div>
-            {% endif %}
+
         </div>
         {% endfor %}
         <hr class="solid">
     </div>
     <div class="cv_section">
-        <h1>Tech Skills</h1>
-        {% if user.is_authenticated %}
-        <div>
-            <a href="{% url 'cv_tech_skils_new' %}" id='add_tech_skills_btn'><i class="fas fa-plus-circle"></i></a>
+        <h1>Tech Skills {% if user.is_authenticated %}
+            <span>
+            <a href="{% url 'cv_tech_skils_new' %}" class='cv_button' id='add_tech_skills_btn'><i
+                    class="fas fa-plus-circle"></i></a>
+        </span>
+            {% endif %}</h1>
 
-        </div>
-        {% endif %}
         <ul class="two_column_list">
             {% for skill in skills %}
             <li>{{ skill.skill}}
+
                 {% if user.is_authenticated %}
                 <a href="{% url 'cv_tech_skils_edit' pk=skill.pk %}" id='edit_tech_skills_btn'><i
-                        class="fas fa-edit"></i></a>
+                        class="fas fa-edit cv_button"></i></a>
                 {% endif %}
             </li>
             {% endfor %}
@@ -53,23 +58,21 @@
         <hr class="solid">
     </div>
     <div sec class="cv_section">
-        <h1>Work Experience</h1>
-        {% if user.is_authenticated %}
-        <div>
-            <a href="{% url 'cv_work_experience_new' %}" id='work_experience_add_button'><i
+        <h1>Work Experience {% if user.is_authenticated %}
+            <span>
+            <a href="{% url 'cv_work_experience_new' %}" class='cv_button' id='work_experience_add_button'><i
                     class="fas fa-plus-circle"></i></a>
-
-        </div>
-        {% endif %}
+        </span>
+            {% endif %}</h1>
         {% for work in work_experience %}
-        {% if user.is_authenticated %}
-        <div>
-            <a href="{% url 'cv_work_experience_edit' pk=work.pk %}" id='work_experience_edit_button'><i
-                    class="fas fa-edit"></i></a>
-        </div>
-        {% endif %}
+
         <div class="left_right">
-            <h3 id="left" class="company">{{ work.company }}</h3>
+            <h3 id="left" class="company">{{ work.company }} {% if user.is_authenticated %}
+                <span>
+            <a href="{% url 'cv_work_experience_edit' pk=work.pk %}" class='cv_button' id='work_experience_edit_button'><i
+                    class="fas fa-edit"></i></a>
+        </span>
+                {% endif %}</h3>
             <h3 id="right" class="location">{{ work.location }}</h3>
         </div>
         <div class="left_right">
@@ -86,22 +89,21 @@
     </div>
 
     <div class="cv_section">
-        <h1>Academic Projects</h1>
-        {% if user.is_authenticated %}
-        <div><a href="{% url 'cv_project_new' %}" id='academic_projects_add_button'><i
-                class="fas fa-plus-circle"></i></a></div>
-        {% endif %}
+        <h1>Academic Projects {% if user.is_authenticated %}
+            <span><a href="{% url 'cv_project_new' %}" class='cv_button' id='academic_projects_add_button'><i
+                    class="fas fa-plus-circle"></i></a></span>
+            {% endif %}</h1>
         {% for project in projects %}
-        {% if user.is_authenticated %}
-        <div>
 
-            <a href="{% url 'cv_project_edit' pk=project.pk %}" id='academic_projects_edit_button'><i
-                    class="fas fa-edit"></i></a>
-        </div>
-        {% endif %}
         <div class="cv_project_wrapper">
             <div class="left_right">
-                <h3 class="project_title" id="left">{{ project.title }}</h3>
+                <h3 class="project_title" id="left">{{ project.title }} {% if user.is_authenticated %}
+                    <span>
+
+            <a href="{% url 'cv_project_edit' pk=project.pk %}" class='cv_button' id='academic_projects_edit_button'><i
+                    class="fas fa-edit"></i></a>
+        </span>
+                    {% endif %}</h3>
                 <h3 class="project_date" id="right">{{ project.start_date_mY }} - {{ project.end_date_mY }}</h3>
             </div>
             <div>
@@ -110,7 +112,6 @@
             </div>
         </div>
         {% endfor %}
-
 
         <hr class="solid">
     </div>
