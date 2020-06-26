@@ -28,7 +28,7 @@
             </div>
             <div>
                 <p>
-                    {{ education.description }}
+                    {{ education.description|linebreaksbr }}
                 </p>
             </div>
 
@@ -81,7 +81,7 @@
         </div>
         <div>
             <p>
-                {{ work.description }}
+                {{ work.description|linebreaksbr }}
             </p>
         </div>
         {% endfor %}
