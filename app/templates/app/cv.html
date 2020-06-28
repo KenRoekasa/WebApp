@@ -57,6 +57,33 @@
         </ul>
         <hr class="solid">
     </div>
+    <div class="cv_section">
+        <h1>Academic Projects {% if user.is_authenticated %}
+            <span><a href="{% url 'cv_project_new' %}" class='cv_button' id='academic_projects_add_button'><i
+                    class="fas fa-plus-circle"></i></a></span>
+            {% endif %}</h1>
+        {% for project in projects %}
+
+        <div class="cv_project_wrapper">
+            <div class="left_right">
+                <h3 class="project_title" id="left">{{ project.title }} {% if user.is_authenticated %}
+                    <span>
+
+            <a href="{% url 'cv_project_edit' pk=project.pk %}" class='cv_button' id='academic_projects_edit_button'><i
+                    class="fas fa-edit"></i></a>
+        </span>
+                    {% endif %}</h3>
+                <h3 class="project_date" id="right">{{ project.start_date_mY }} - {{ project.end_date_mY }}</h3>
+            </div>
+            <div>
+                {{ project.description | linebreaks }}
+
+            </div>
+        </div>
+        {% endfor %}
+
+        <hr class="solid">
+    </div>
     <div sec class="cv_section">
         <h1>Work Experience {% if user.is_authenticated %}
             <span>
@@ -88,33 +115,7 @@
         <hr class="solid">
     </div>
 
-    <div class="cv_section">
-        <h1>Academic Projects {% if user.is_authenticated %}
-            <span><a href="{% url 'cv_project_new' %}" class='cv_button' id='academic_projects_add_button'><i
-                    class="fas fa-plus-circle"></i></a></span>
-            {% endif %}</h1>
-        {% for project in projects %}
 
-        <div class="cv_project_wrapper">
-            <div class="left_right">
-                <h3 class="project_title" id="left">{{ project.title }} {% if user.is_authenticated %}
-                    <span>
-
-            <a href="{% url 'cv_project_edit' pk=project.pk %}" class='cv_button' id='academic_projects_edit_button'><i
-                    class="fas fa-edit"></i></a>
-        </span>
-                    {% endif %}</h3>
-                <h3 class="project_date" id="right">{{ project.start_date_mY }} - {{ project.end_date_mY }}</h3>
-            </div>
-            <div>
-                {{ project.description | linebreaks }}
-
-            </div>
-        </div>
-        {% endfor %}
-
-        <hr class="solid">
-    </div>
     <div class="cv_section">
         <h1>Awards and Achievements</h1>
         <ul>
