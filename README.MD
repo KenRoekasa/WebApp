@@ -1,6 +1,5 @@
 # TODO
 
-+ Write Blog post for TDD
 + Add more security with secret key etc..
 
 
